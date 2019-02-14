@@ -1,11 +1,14 @@
 package model;
 
+import java.util.List;
+
 public class Client {
     private Long id;
     private String name;
     private String phoneNumber;
     private String socialId;
     private String address;
+//    List<Order> orders; to be implemented
 
     public Long getId() {
         return id;
@@ -46,4 +49,13 @@ public class Client {
     public void setAddress(String address) {
         this.address = address;
     }
+
+//    @Override
+//    public String toString() {
+//        return "Id: " + id +
+//                " Name: " + name +
+//                " Phone number: " + phoneNumber +
+//                " Social ID: " + socialId +
+//                " Address: " + address;
+//    }
 }

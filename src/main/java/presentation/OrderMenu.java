@@ -3,12 +3,14 @@ package presentation;
 import model.Order;
 import storage.OrderDAO;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class OrderMenu extends AbstractMenu {
-    OrderDAO orderDAO = new OrderDAO();
-    OrderReader reader = new OrderReader();
-    OrderWriter writer = new OrderWriter();
+    private OrderDAO orderDAO = new OrderDAO();
+    private OrderReader reader = new OrderReader();
+    private OrderWriter writer = new OrderWriter();
+    private Scanner scanner = new Scanner(System.in);
 
     protected void displayOptions() {
         System.out.println("\nOrders menu");
@@ -26,44 +28,97 @@ public class OrderMenu extends AbstractMenu {
                 writer.writeAll(orderDAO.findAll());
                 break;
             case 2:
-                displayOrderDetails();
+                if (orderDAO.findAll().isEmpty()) {
+                    System.out.println("No orders available.");
+                } else {
+                    writer.writeAll(orderDAO.findAll());
+                    System.out.print("Select order to view: ");
+                    displayOrderDetails();
+                }
                 break;
             case 3:
-                editActualPrice();
+                if (orderDAO.findAll().isEmpty()) {
+                    System.out.println("No orders available.");
+                } else {
+                    writer.writeAll(orderDAO.findAll());
+                    System.out.print("Select order to edit: ");
+                    editOrder();
+                }
                 break;
             case 4:
                 Order newOrder = reader.read();
-                orderDAO.add(newOrder);
+                if (newOrder == null) {
+                    System.out.println("No products/clients available");
+                } else {
+                    orderDAO.add(newOrder);
+                    System.out.println("Order added");
+                }
                 break;
             case 5:
-                System.out.println("Select order, by id, to delete: ");
-                Long id = new Scanner(System.in).nextLong();
-                orderDAO.deleteById(id);
+                if (orderDAO.findAll().isEmpty()) {
+                    System.out.println("No orders available.");
+                } else {
+                    writer.writeAll(orderDAO.findAll());
+                    System.out.print("Select order to delete: ");
+                    boolean isDeleted = orderDAO.deleteById(getNumericInput());
+                    if (isDeleted) {
+                        System.out.println("Order deleted");
+                    }
+                }
                 break;
             case 0:
                 System.out.println("Exiting to main menu");
                 break;
             default:
                 System.out.println("Invalid option");
-
         }
     }
 
-    private void editActualPrice() {
-        System.out.println("Select order, by id, to edit: ");
-        Long id = new Scanner(System.in).nextLong();
-        System.out.println("Enter new actual price: ");
-        Double actualPrice = new Scanner(System.in).nextDouble();
-        Order order = orderDAO.findById(id);
-        order.setActualPrice(actualPrice);
-        orderDAO.update(order);
+    private Long getNumericInput() {
+        try {
+            return scanner.nextLong();
+        } catch (InputMismatchException e) {
+            scanner.nextLine();
+        }
+        return -1L;
+    }
+
+    private void editOrder() {
+//        Scanner scanner = new Scanner(System.in);
+//        Order foundOrder = orderDAO.findById(getNumericInput());
+//        if (foundOrder == null) {
+//            System.out.println("Order not found");
+//        } else {
+//            System.out.print("Enter new name: ");
+//            foundOrder.setName(scanner.next());
+//            System.out.print("Enter new phone number: ");
+//            String phoneNumber = scanner.next().trim();
+//            if (!phoneNumber.matches("0[0-9]{9}")) {
+//                System.out.println("Phone number not changed");
+//            } else {
+//                foundOrder.setPhoneNumber(phoneNumber);
+//            }
+//            System.out.print("Enter new social ID: "); // nu prea e ok sa schimbam cnp-ul, pt. ca ar trebui sa fie unic si "imutabil"
+//            String socialId = scanner.next().trim();
+//            if (!socialId.matches("0[0-9]{9}")) {
+//                System.out.println("ID not changed");
+//            } else {
+//                foundOrder.setSocialId(socialId);
+//            }
+//            System.out.print("Enter new adress: ");
+//            foundOrder.setAddress(scanner.next());
+//            orderDAO.update(foundOrder);
+//            System.out.println("Order updated");
+//        }
     }
 
     private void displayOrderDetails() {
-        System.out.println("Choose order, by id: ");
-        Scanner scanner = new Scanner(System.in);
-        Long id = scanner.nextLong();
-        Order searchedOrder = orderDAO.findById(id);
-        writer.write(searchedOrder);
+        Order foundOrder = orderDAO.findById(getNumericInput());
+        if (foundOrder == null) {
+            System.out.println("Order not found");
+        } else {
+            System.out.println("Order details are: ");
+            writer.write(foundOrder);
+        }
     }
 }

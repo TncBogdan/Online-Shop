@@ -2,44 +2,72 @@ package presentation;
 
 import model.Client;
 import model.Order;
-import model.OrderStatus;
 import model.Product;
+import storage.ClientDAO;
+import storage.ProductDAO;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
 public class OrderReader implements ConsoleReader<Order> {
+    private Scanner scanner = new Scanner(System.in);
+    private ClientDAO clientDAO = new ClientDAO();
+    private ProductDAO productDAO = new ProductDAO();
 
     public Order read() {
+        if (productDAO.findAll().isEmpty() || clientDAO.findAll().isEmpty()) {
+            return null;
+        }
         Order order = new Order();
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Client: ");
-        ClientReader clientReader = new ClientReader();
-        Client client = clientReader.read();
-        System.out.println("List of products: ");
+        new ClientWriter().writeAll(clientDAO.findAll());
+        System.out.print("Select client: ");
+        Client selectedClient = clientDAO.findById(getNumericInput());
+        while (selectedClient == null) {
+            System.out.print("Client not found. Select again: ");
+            selectedClient = clientDAO.findById(getNumericInput());
+        }
+        System.out.print("Select product: ");
+
         List<Product> listOfProducts = getProducts();
-        System.out.println("Order status(accepted, placed, payed, delivered, canceled): ");
-        String orderStat = scanner.nextLine().toUpperCase();
         System.out.print("Actual price: ");
-        Double actualPrice = scanner.nextDouble();
-        order.setClient(client);
+        Double actualPrice = 0d;
+        while (true) {
+            try {
+                actualPrice = scanner.nextDouble();
+            } catch (InputMismatchException e) {
+                scanner.nextLine();
+            }
+            if (actualPrice <= 0)
+                System.out.print("Incorrect price. Insert again: ");
+            else break;
+        }
+        order.setClient(selectedClient);
         order.setOrderedProducts(listOfProducts);
-        order.setOrderStatus(OrderStatus.valueOf(orderStat));
-        order.setActualPrice(actualPrice);
+        order.setFinalPrice(actualPrice);
         order.setTimestamp(Timestamp.valueOf(LocalDateTime.now()));
         return order;
     }
 
+    private Long getNumericInput() {
+        try {
+            return scanner.nextLong();
+        } catch (InputMismatchException e) {
+            scanner.nextLine();
+        }
+        return -1L;
+    }
+
     private List<Product> getProducts() {
-        List<Product> listOfProducts = new ArrayList<Product>();
-        ProductReader productReader = new ProductReader();
-        Product product1 = productReader.read();
-        Product product2 = productReader.read();
-        listOfProducts.add(product1);
-        listOfProducts.add(product2);
+        new ProductWriter().writeAll(productDAO.findAll());
+        List<Product> listOfProducts = new ArrayList<>();
+//        Product product1 = productReader.read();
+//        Product product2 = productReader.read();
+//        listOfProducts.add(product1);
+//        listOfProducts.add(product2);
         return listOfProducts;
     }
 }

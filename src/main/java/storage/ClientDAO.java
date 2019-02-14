@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ClientDAO implements GenericDAO<Client> {
-    static List<Client> clients = new ArrayList<Client>();
+    static List<Client> clients = new ArrayList<>();
 
     public List<Client> findAll() {
         return clients;
@@ -67,5 +67,4 @@ public class ClientDAO implements GenericDAO<Client> {
         }
         return max;
     }
-
 }

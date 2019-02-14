@@ -10,6 +10,17 @@ public class Client {
     private String address;
 //    List<Order> orders; to be implemented
 
+    public Client() {
+    }
+
+    public Client(Long id, String name, String phoneNumber, String socialId, String address) {
+        this.id = id;
+        this.name = name;
+        this.phoneNumber = phoneNumber;
+        this.socialId = socialId;
+        this.address = address;
+    }
+
     public Long getId() {
         return id;
     }

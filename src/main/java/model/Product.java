@@ -6,15 +6,15 @@ public class Product {
     private String description;
     private Double price;
 
-//    public Product() {
-//    }
-//
-//    public Product(Long id, String name, Double price, String description) {
-//        this.id = id;
-//        this.name = name;
-//        this.price = price;
-//        this.description = description;
-//    }
+    public Product() {
+    }
+
+    public Product(Long id, String name, String description, Double price) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+        this.description = description;
+    }
 
     public Long getId() {
         return id;

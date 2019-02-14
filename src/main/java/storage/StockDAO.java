@@ -5,8 +5,8 @@ import model.Stock;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StockDAO /*implements GenericDAO<Stock>*/ {
-    static List<Stock> stockList = new ArrayList<Stock>();
+public class StockDAO implements GenericDAO<Stock> {
+    private static List<Stock> stockList = new ArrayList<Stock>();
 
     public List<Stock> findAll() {
         return stockList;
@@ -38,7 +38,7 @@ public class StockDAO /*implements GenericDAO<Stock>*/ {
         deleteById(stock.getId());
     }
 
-    public void deleteById(Long id) {
+    public Stock deleteById(Long id) {
         Stock deletedStock = null;
         for (Stock stock : stockList) {
             if (stock.getId().equals(id)) {
@@ -46,6 +46,7 @@ public class StockDAO /*implements GenericDAO<Stock>*/ {
             }
         }
         stockList.remove(deletedStock);
+        return deletedStock;
     }
 
     private long generateNewId() {

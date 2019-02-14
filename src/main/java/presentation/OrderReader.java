@@ -30,21 +30,16 @@ public class OrderReader implements ConsoleReader<Order> {
             System.out.print("Client not found. Select again: ");
             selectedClient = clientDAO.findById(getNumericInput());
         }
-        System.out.print("Select product: ");
-
-        List<Product> listOfProducts = getProducts();
-        System.out.print("Actual price: ");
-        Double actualPrice = 0d;
-        while (true) {
-            try {
-                actualPrice = scanner.nextDouble();
-            } catch (InputMismatchException e) {
-                scanner.nextLine();
-            }
-            if (actualPrice <= 0)
-                System.out.print("Incorrect price. Insert again: ");
-            else break;
+        new ProductWriter().writeAll(productDAO.findAll());
+        System.out.print("Select no. of products: ");
+        Long noOfProducts = getNumericInput();
+        while (noOfProducts <= 0) {
+            System.out.print("Incorrect number. Insert again: ");
+            noOfProducts = getNumericInput();
         }
+        List<Product> listOfProducts = getProducts(noOfProducts);
+        System.out.print("Actual price: ");
+        Double actualPrice = getPrice();
         order.setClient(selectedClient);
         order.setOrderedProducts(listOfProducts);
         order.setFinalPrice(actualPrice);
@@ -61,8 +56,26 @@ public class OrderReader implements ConsoleReader<Order> {
         return -1L;
     }
 
-    private List<Product> getProducts() {
-        new ProductWriter().writeAll(productDAO.findAll());
+    private Double getPrice() {
+        double price = 0d;
+        while (true) {
+            try {
+                price = scanner.nextDouble();
+            } catch (InputMismatchException e) {
+                scanner.nextLine();
+            }
+            if (price <= 0)
+                System.out.print("Incorrect price. Insert again: ");
+            else break;
+        }
+        return price;
+    }
+
+    private List<Product> getProducts(Long noOfItems) {
+        for (int i = 0; i < noOfItems; i++) {
+            System.out.println("Product #" + i + ": ");
+            productDAO.findById(getNumericInput());
+        }
         List<Product> listOfProducts = new ArrayList<>();
 //        Product product1 = productReader.read();
 //        Product product2 = productReader.read();

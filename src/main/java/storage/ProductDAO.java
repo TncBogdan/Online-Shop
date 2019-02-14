@@ -6,7 +6,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProductDAO implements GenericDAO<Product> {
-    private static List<Product> products = new ArrayList<>();
+    private List<Product> products = new ArrayList<>();
+
+    public void initialize() {
+        products.add(new Product(1L, "tigaie", "o tigaie mare", 23D));
+        products.add(new Product(4L, "laptop", "cu soft piratat", 1400.99));
+        products.add(new Product(2L, "margarina", "sanatoasa", 3.5));
+    }
 
     public List<Product> findAll() {
         return products;
@@ -38,20 +44,15 @@ public class ProductDAO implements GenericDAO<Product> {
         deleteById(product.getId());
     }
 
-    public boolean deleteById(Long id) {
+    public Product deleteById(Long id) {
         Product deletedProduct = null;
         for (Product product : products) {
             if (product.getId().equals(id)) {
                 deletedProduct = product;
             }
         }
-        if (deletedProduct == null) {
-            System.out.println("Product not found");
-            return false;
-        } else {
-            products.remove(deletedProduct);
-            return true;
-        }
+        products.remove(deletedProduct);
+        return deletedProduct;
     }
 
     private Long generateNewId() {

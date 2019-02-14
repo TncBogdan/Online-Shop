@@ -13,5 +13,5 @@ public interface GenericDAO<T> {
 
     void delete(T value);
 
-    boolean deleteById(Long id);
+    T deleteById(Long id);
 }

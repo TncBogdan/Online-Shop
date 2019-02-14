@@ -60,8 +60,10 @@ public class OrderMenu extends AbstractMenu {
                 } else {
                     writer.writeAll(orderDAO.findAll());
                     System.out.print("Select order to delete: ");
-                    boolean isDeleted = orderDAO.deleteById(getNumericInput());
-                    if (isDeleted) {
+                    Order deletedOrder = orderDAO.deleteById(getNumericInput());
+                    if (deletedOrder == null) {
+                        System.out.println("Order not found");
+                    } else {
                         System.out.println("Order deleted");
                     }
                 }

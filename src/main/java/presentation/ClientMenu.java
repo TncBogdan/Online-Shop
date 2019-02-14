@@ -7,12 +7,13 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class ClientMenu extends AbstractMenu {
-    ClientDAO clientDAO = new ClientDAO();
-    ClientReader reader = new ClientReader();
-    ClientWriter writer = new ClientWriter();
-    Scanner scanner = new Scanner(System.in);
+    private ClientDAO clientDAO = new ClientDAO();
+    private ClientReader reader = new ClientReader();
+    private ClientWriter writer = new ClientWriter();
+    private Scanner scanner = new Scanner(System.in);
 
     protected void displayOptions() {
+//        clientDAO.initialize();
         System.out.println("\nClients menu");
         System.out.println("1 - View all clients");
         System.out.println("2 - View client details");
@@ -56,8 +57,10 @@ public class ClientMenu extends AbstractMenu {
                 } else {
                     writer.writeAll(clientDAO.findAll());
                     System.out.print("Select client to delete: ");
-                    boolean isDeleted = clientDAO.deleteById(getNumericInput());
-                    if (isDeleted) {
+                    Client deletedClient = clientDAO.deleteById(getNumericInput());
+                    if (deletedClient == null) {
+                        System.out.println("Client not found");
+                    } else {
                         System.out.println("Client deleted");
                     }
                 }

@@ -7,12 +7,13 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class ProductMenu extends AbstractMenu {
-    ProductDAO productDAO = new ProductDAO();
-    ProductReader reader = new ProductReader();
-    ProductWriter writer = new ProductWriter();
-    Scanner scanner = new Scanner(System.in);
+    private ProductDAO productDAO = new ProductDAO();
+    private ProductReader reader = new ProductReader();
+    private ProductWriter writer = new ProductWriter();
+    private Scanner scanner = new Scanner(System.in);
 
     protected void displayOptions() {
+//        productDAO.initialize();
         System.out.println("\nProducts menu");
         System.out.println("1 - View all products");
         System.out.println("2 - View product details");
@@ -56,9 +57,11 @@ public class ProductMenu extends AbstractMenu {
                 } else {
                     writer.writeAll(productDAO.findAll());
                     System.out.print("Select product to delete: ");
-                    boolean isDeleted = productDAO.deleteById(getNumericInput());
-                    if (isDeleted) {
-                        System.out.println("Client deleted");
+                    Product deletedProduct = productDAO.deleteById(getNumericInput());
+                    if (deletedProduct == null) {
+                        System.out.println("Product not found");
+                    } else {
+                        System.out.println("Product deleted");
                     }
                 }
                 break;

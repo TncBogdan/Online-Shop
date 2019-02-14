@@ -1,6 +1,4 @@
-package ro.sda.shop;
-
-import ro.sda.shop.presentation.MainMenu;
+import presentation.MainMenu;
 
 public class Main {
 

@@ -1,4 +1,4 @@
-package ro.sda.shop.model;
+package model;
 
 
 import java.sql.Timestamp;

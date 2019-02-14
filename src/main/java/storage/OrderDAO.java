@@ -1,11 +1,11 @@
-package ro.sda.shop.storage;
+package storage;
 
-import ro.sda.shop.model.Order;
+import model.Order;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class OrderDAO implements GenericDAO<Order> {
+public class OrderDAO/* implements GenericDAO<Order>*/ {
     static List<Order> orders = new ArrayList<Order>();
 
     public List<Order> findAll() {

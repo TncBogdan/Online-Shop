@@ -1,4 +1,4 @@
-package ro.sda.shop.presentation;
+package presentation;
 
 public interface ConsoleReader<T> {
     T read();

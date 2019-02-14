@@ -1,11 +1,11 @@
-package ro.sda.shop.storage;
+package storage;
 
-import ro.sda.shop.model.Stock;
+import model.Stock;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class StockDAO implements GenericDAO<Stock> {
+public class StockDAO /*implements GenericDAO<Stock>*/ {
     static List<Stock> stockList = new ArrayList<Stock>();
 
     public List<Stock> findAll() {

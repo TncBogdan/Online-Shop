@@ -1,7 +1,7 @@
-package ro.sda.shop.presentation;
+package presentation;
 
-import ro.sda.shop.model.Product;
-import ro.sda.shop.model.Stock;
+import model.Product;
+import model.Stock;
 
 import java.util.Scanner;
 

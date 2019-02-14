@@ -1,7 +1,6 @@
-package ro.sda.shop.model;
+package model;
 
 public class Stock {
-
     private Long id;
     private Product product;
     private Integer quantity;

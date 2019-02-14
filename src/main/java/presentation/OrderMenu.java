@@ -1,7 +1,7 @@
-package ro.sda.shop.presentation;
+package presentation;
 
-import ro.sda.shop.model.Order;
-import ro.sda.shop.storage.OrderDAO;
+import model.Order;
+import storage.OrderDAO;
 
 import java.util.Scanner;
 
@@ -11,10 +11,11 @@ public class OrderMenu extends AbstractMenu {
     OrderWriter writer = new OrderWriter();
 
     protected void displayOptions() {
+        System.out.println("\nOrders menu");
         System.out.println("1 - View all orders");
         System.out.println("2 - View order details");
         System.out.println("3 - Edit order");
-        System.out.println("4 - Add new order");
+        System.out.println("4 - Add order");
         System.out.println("5 - Delete order");
         System.out.println("0 - Exit");
     }

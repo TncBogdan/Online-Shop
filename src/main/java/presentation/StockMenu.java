@@ -1,7 +1,7 @@
-package ro.sda.shop.presentation;
+package presentation;
 
-import ro.sda.shop.model.Stock;
-import ro.sda.shop.storage.StockDAO;
+import model.Stock;
+import storage.StockDAO;
 
 import java.util.Scanner;
 
@@ -11,6 +11,7 @@ public class StockMenu extends AbstractMenu{
     StockWriter writer = new StockWriter();
 
     protected void displayOptions() {
+        System.out.println("\nStocks menu");
         System.out.println("1 - View all stocks");
         System.out.println("2 - View stock details");
         System.out.println("3 - Edit stock");

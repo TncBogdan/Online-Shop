@@ -1,6 +1,6 @@
-package ro.sda.shop.presentation;
+package presentation;
 
-import ro.sda.shop.model.Client;
+import model.Client;
 
 import java.util.Scanner;
 
@@ -11,10 +11,19 @@ public class ClientReader implements ConsoleReader<Client> {
         System.out.print("Name: ");
         String name = scanner.nextLine();
         System.out.print("Phone number: ");
-        String phoneNumber = scanner.nextLine();
+
+        String phoneNumber = scanner.nextLine().trim();
+        while (!phoneNumber.matches("0[0-9]{9}")) {
+            System.out.print("Incorrect number. Insert again: ");
+            phoneNumber = scanner.nextLine().trim();
+        }
         System.out.print("Social ID: ");
-        String socialId = scanner.nextLine();
-        System.out.println("Address: ");
+        String socialId = scanner.nextLine().trim();
+        while (!socialId.matches("[1|2][0-9]{12}")) {
+            System.out.print("Incorrect ID. Insert again: ");
+            socialId = scanner.nextLine().trim();
+        }
+        System.out.print("Address: ");
         String address = scanner.nextLine();
         client.setName(name);
         client.setPhoneNumber(phoneNumber);

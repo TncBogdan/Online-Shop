@@ -1,12 +1,11 @@
-package ro.sda.shop.storage;
+package storage;
 
-import ro.sda.shop.model.Client;
+import model.Client;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ClientDAO implements GenericDAO<Client> {
-    //1.d. static
     static List<Client> clients = new ArrayList<Client>();
 
     public List<Client> findAll() {
@@ -39,14 +38,20 @@ public class ClientDAO implements GenericDAO<Client> {
         deleteById(client.getId());
     }
 
-    public void deleteById(Long id) {
+    public boolean deleteById(Long id) {
         Client deletedClient = null;
         for (Client client : clients) {
             if (client.getId().equals(id)) {
                 deletedClient = client;
             }
         }
-        clients.remove(deletedClient);
+        if (deletedClient == null) {
+            System.out.println("Client not found");
+            return false;
+        } else {
+            clients.remove(deletedClient);
+            return true;
+        }
     }
 
     private Long generateNewId() {

@@ -1,7 +1,6 @@
-package ro.sda.shop.presentation;
+package presentation;
 
-import ro.sda.shop.model.Order;
-import ro.sda.shop.model.Product;
+import model.Order;
 
 import java.util.List;
 

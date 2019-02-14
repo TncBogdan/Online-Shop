@@ -1,4 +1,4 @@
-package ro.sda.shop.model;
+package model;
 
 public class Client {
     private Long id;
@@ -46,5 +46,4 @@ public class Client {
     public void setAddress(String address) {
         this.address = address;
     }
-
 }

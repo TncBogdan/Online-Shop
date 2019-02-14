@@ -1,16 +1,16 @@
-package ro.sda.shop.presentation;
+package presentation;
 
-import ro.sda.shop.model.Client;
+import model.Client;
 
 import java.util.List;
 
 public class ClientWriter implements ConsoleWriter<Client> {
-    public void write(Client value) {
-        System.out.println("Id: " + value.getId());
-        System.out.println("Name: " + value.getName());
-        System.out.println("Phone Number: " + value.getPhoneNumber());
-        System.out.println("Social ID: " + value.getSocialId());
-        System.out.println("Address: " + value.getAddress());
+    public void write(Client client) {
+        System.out.println("Id: " + client.getId());
+        System.out.println("Name: " + client.getName());
+        System.out.println("Phone Number: " + client.getPhoneNumber());
+        System.out.println("Social ID: " + client.getSocialId());
+        System.out.println("Address: " + client.getAddress());
     }
 
     public void writeAll(List<Client> clients) {

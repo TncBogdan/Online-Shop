@@ -1,9 +1,9 @@
-package ro.sda.shop.presentation;
+package presentation;
 
-import ro.sda.shop.model.Client;
-import ro.sda.shop.model.Order;
-import ro.sda.shop.model.OrderStatus;
-import ro.sda.shop.model.Product;
+import model.Client;
+import model.Order;
+import model.OrderStatus;
+import model.Product;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;

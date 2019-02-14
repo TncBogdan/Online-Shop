@@ -1,4 +1,4 @@
-package ro.sda.shop.storage;
+package storage;
 
 import java.util.List;
 
@@ -13,5 +13,5 @@ public interface GenericDAO<T> {
 
     void delete(T value);
 
-    void deleteById(Long id);
+    boolean deleteById(Long id);
 }

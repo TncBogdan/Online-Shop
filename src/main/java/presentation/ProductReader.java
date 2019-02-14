@@ -1,7 +1,8 @@
-package ro.sda.shop.presentation;
+package presentation;
 
-import ro.sda.shop.model.Product;
+import model.Product;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class ProductReader implements ConsoleReader<Product> {
@@ -12,8 +13,18 @@ public class ProductReader implements ConsoleReader<Product> {
         String name = scanner.nextLine();
         System.out.print("Description: ");
         String description = scanner.nextLine();
-        System.out.println("Price: ");
-        Double price = scanner.nextDouble();
+        System.out.print("Price: ");
+        Double price = 0d;
+        while (true) {
+            try {
+                price = scanner.nextDouble();
+            } catch (InputMismatchException e) {
+                scanner.nextLine();
+            }
+            if (price <= 0)
+                System.out.print("Incorrect price. Insert again: ");
+            else break;
+        }
         product.setName(name);
         product.setDescription(description);
         product.setPrice(price);

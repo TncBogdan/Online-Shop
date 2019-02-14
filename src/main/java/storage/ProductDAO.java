@@ -1,12 +1,12 @@
-package ro.sda.shop.storage;
+package storage;
 
-import ro.sda.shop.model.Product;
+import model.Product;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ProductDAO implements GenericDAO<Product> {
-    static List<Product> products = new ArrayList<Product>();;
+    private static List<Product> products = new ArrayList<>();
 
     public List<Product> findAll() {
         return products;
@@ -38,14 +38,20 @@ public class ProductDAO implements GenericDAO<Product> {
         deleteById(product.getId());
     }
 
-    public void deleteById(Long id) {
+    public boolean deleteById(Long id) {
         Product deletedProduct = null;
         for (Product product : products) {
             if (product.getId().equals(id)) {
                 deletedProduct = product;
             }
         }
-        products.remove(deletedProduct);
+        if (deletedProduct == null) {
+            System.out.println("Product not found");
+            return false;
+        } else {
+            products.remove(deletedProduct);
+            return true;
+        }
     }
 
     private Long generateNewId() {

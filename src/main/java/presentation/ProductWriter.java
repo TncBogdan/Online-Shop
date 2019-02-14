@@ -1,6 +1,6 @@
-package ro.sda.shop.presentation;
+package presentation;
 
-import ro.sda.shop.model.Product;
+import model.Product;
 
 import java.util.List;
 
@@ -28,5 +28,4 @@ public class ProductWriter implements ConsoleWriter<Product> {
         System.out.print(" Description: " + product.getDescription());
         System.out.println(" Price: " + product.getPrice());
     }
-
 }

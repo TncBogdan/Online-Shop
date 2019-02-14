@@ -1,4 +1,4 @@
-package ro.sda.shop.model;
+package model;
 
 public enum OrderStatus {
      ACCEPTED, PLACED, PAYED, DELIVERED, CANCELED;

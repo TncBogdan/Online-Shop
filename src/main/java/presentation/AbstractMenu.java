@@ -1,5 +1,6 @@
-package ro.sda.shop.presentation;
+package presentation;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public abstract class AbstractMenu {
@@ -13,14 +14,18 @@ public abstract class AbstractMenu {
         }
     }
 
-    protected abstract void displayOptions();//specific for every menu
+    protected abstract void displayOptions();
 
-    protected abstract void executeCmd(Integer option);//specific for every menu
+    protected abstract void executeCmd(Integer option);
 
     private Integer readOption() {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Your option is: ");
-        return scanner.nextInt();
+        try {
+            return scanner.nextInt();
+        } catch (InputMismatchException e) {
+            return -1;
+        }
     }
 
 

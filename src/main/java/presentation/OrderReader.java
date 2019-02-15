@@ -10,13 +10,9 @@ import storage.ProductDAO;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.InputMismatchException;
 import java.util.List;
-import java.util.Scanner;
-
 
 public class OrderReader implements ConsoleReader<Order> {
-    private Scanner scanner = new Scanner(System.in);
     private ClientDAO clientDAO = new ClientDAO();
     private ProductDAO productDAO = new ProductDAO();
 
@@ -41,27 +37,12 @@ public class OrderReader implements ConsoleReader<Order> {
         }
         List<Product> listOfProducts = getProducts(noOfProducts);
         System.out.print("Actual price: ");
-        Double actualPrice = getPrice();
+        Double actualPrice = IOService.getPrice();
         order.setClient(selectedClient);
         order.setOrderedProducts(listOfProducts);
         order.setFinalPrice(actualPrice);
         order.setTimestamp(Timestamp.valueOf(LocalDateTime.now()));
         return order;
-    }
-
-    private Double getPrice() {
-        double price = 0d;
-        while (true) {
-            try {
-                price = scanner.nextDouble();
-            } catch (InputMismatchException e) {
-                scanner.nextLine();
-            }
-            if (price <= 0)
-                System.out.print("Incorrect price. Insert again: ");
-            else break;
-        }
-        return price;
     }
 
     private List<Product> getProducts(Long noOfItems) {

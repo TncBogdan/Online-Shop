@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StockDAO implements GenericDAO<Stock> {
-    private static List<Stock> stockList = new ArrayList<Stock>();
+    private static List<Stock> stockList = new ArrayList<>();
 
     public List<Stock> findAll() {
         return stockList;

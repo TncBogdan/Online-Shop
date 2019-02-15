@@ -7,7 +7,7 @@ import java.util.List;
 public class OrderWriter implements ConsoleWriter<Order> {
     public void write(Order order) {
         System.out.println("Id: " + order.getId());
-        System.out.println("Client: ");
+        System.out.print("Client: ");
         new ClientWriter().writeSummary(order.getClient());
         System.out.println("Products: ");
         new ProductWriter().writeAll(order.getOrderedProducts());

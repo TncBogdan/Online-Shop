@@ -1,16 +1,13 @@
 package presentation;
 
 import model.Order;
+import service.IOService;
 import storage.OrderDAO;
-
-import java.util.InputMismatchException;
-import java.util.Scanner;
 
 public class OrderMenu extends AbstractMenu {
     private OrderDAO orderDAO = new OrderDAO();
     private OrderReader reader = new OrderReader();
     private OrderWriter writer = new OrderWriter();
-    private Scanner scanner = new Scanner(System.in);
 
     protected void displayOptions() {
         System.out.println("\nOrders menu");
@@ -51,6 +48,7 @@ public class OrderMenu extends AbstractMenu {
                     System.out.println("No products/clients available");
                 } else {
                     orderDAO.add(newOrder);
+//                    reader.setOrderToClient(newOrder); not working! (-x
                     System.out.println("Order added");
                 }
                 break;
@@ -60,7 +58,7 @@ public class OrderMenu extends AbstractMenu {
                 } else {
                     writer.writeAll(orderDAO.findAll());
                     System.out.print("Select order to delete: ");
-                    Order deletedOrder = orderDAO.deleteById(getNumericInput());
+                    Order deletedOrder = orderDAO.deleteById(IOService.getNumericInput());
                     if (deletedOrder == null) {
                         System.out.println("Order not found");
                     } else {
@@ -76,18 +74,9 @@ public class OrderMenu extends AbstractMenu {
         }
     }
 
-    private Long getNumericInput() {
-        try {
-            return scanner.nextLong();
-        } catch (InputMismatchException e) {
-            scanner.nextLine();
-        }
-        return -1L;
-    }
-
     private void editOrder() {
 //        Scanner scanner = new Scanner(System.in);
-//        Order foundOrder = orderDAO.findById(getNumericInput());
+//        Order foundOrder = orderDAO.findById(IOService.getNumericInput());
 //        if (foundOrder == null) {
 //            System.out.println("Order not found");
 //        } else {
@@ -115,7 +104,7 @@ public class OrderMenu extends AbstractMenu {
     }
 
     private void displayOrderDetails() {
-        Order foundOrder = orderDAO.findById(getNumericInput());
+        Order foundOrder = orderDAO.findById(IOService.getNumericInput());
         if (foundOrder == null) {
             System.out.println("Order not found");
         } else {

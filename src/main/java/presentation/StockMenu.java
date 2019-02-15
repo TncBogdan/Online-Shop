@@ -1,21 +1,22 @@
 package presentation;
 
 import model.Stock;
+import service.IOService;
 import storage.StockDAO;
 
 import java.util.Scanner;
 
-public class StockMenu extends AbstractMenu{
-    StockDAO stockDAO = new StockDAO();
-    StockReader reader = new StockReader();
-    StockWriter writer = new StockWriter();
+public class StockMenu extends AbstractMenu {
+    private StockDAO stockDAO = new StockDAO();
+    private StockReader reader = new StockReader();
+    private StockWriter writer = new StockWriter();
 
     protected void displayOptions() {
         System.out.println("\nStocks menu");
         System.out.println("1 - View all stocks");
         System.out.println("2 - View stock details");
         System.out.println("3 - Edit stock");
-        System.out.println("4 - Add new stock");
+        System.out.println("4 - Add stock");
         System.out.println("5 - Delete stock");
         System.out.println("0 - Exit");
     }
@@ -26,30 +27,55 @@ public class StockMenu extends AbstractMenu{
                 writer.writeAll(stockDAO.findAll());
                 break;
             case 2:
-                displayStockDetails();
+                if (stockDAO.findAll().isEmpty()) {
+                    System.out.println("No stocks available.");
+                } else {
+                    writer.writeAll(stockDAO.findAll());
+                    System.out.print("Select stock to view: ");
+                    displayStockDetails();
+                }
                 break;
             case 3:
-                editLocation();
-                //editQuantity();
+                if (stockDAO.findAll().isEmpty()) {
+                    System.out.println("No stocks available.");
+                } else {
+                    writer.writeAll(stockDAO.findAll());
+                    System.out.print("Select stock to edit: ");
+                    editStock();
+                }
                 break;
             case 4:
                 Stock newStock = reader.read();
-                stockDAO.add(newStock);
+                if (newStock == null) {
+                    System.out.println("No products available");
+                } else {
+                    stockDAO.add(newStock);
+                    System.out.println("Stock added");
+                }
                 break;
             case 5:
-                System.out.println("Select stock to delete: ");
-                Long id = new Scanner(System.in).nextLong();
-                stockDAO.deleteById(id);
+                if (stockDAO.findAll().isEmpty()) {
+                    System.out.println("No stocks available.");
+                } else {
+                    writer.writeAll(stockDAO.findAll());
+                    System.out.print("Select stock to delete: ");
+                    Stock deletedStock = stockDAO.deleteById(IOService.getNumericInput());
+                    if (deletedStock == null) {
+                        System.out.println("Stock not found");
+                    } else {
+                        System.out.println("Stock deleted");
+                    }
+                }
                 break;
             case 0:
                 System.out.println("Exiting to main menu");
                 break;
             default:
                 System.out.println("Invalid option");
+        }
     }
-}
 
-    private void editLocation() {
+    private void editStock() {
         System.out.println("Select stock, by id, to edit: ");
         Long id = new Scanner(System.in).nextLong();
         System.out.println("Enter new location: ");
@@ -66,4 +92,4 @@ public class StockMenu extends AbstractMenu{
         Stock searchedStock = stockDAO.findById(id);
         writer.write(searchedStock);
     }
-    }
+}

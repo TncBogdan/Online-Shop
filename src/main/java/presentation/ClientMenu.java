@@ -1,16 +1,15 @@
 package presentation;
 
-import storage.ClientDAO;
 import model.Client;
+import service.IOService;
+import storage.ClientDAO;
 
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class ClientMenu extends AbstractMenu {
     private ClientDAO clientDAO = new ClientDAO();
     private ClientReader reader = new ClientReader();
     private ClientWriter writer = new ClientWriter();
-    private Scanner scanner = new Scanner(System.in);
 
     protected void displayOptions() {
 //        clientDAO.initialize();
@@ -57,7 +56,7 @@ public class ClientMenu extends AbstractMenu {
                 } else {
                     writer.writeAll(clientDAO.findAll());
                     System.out.print("Select client to delete: ");
-                    Client deletedClient = clientDAO.deleteById(getNumericInput());
+                    Client deletedClient = clientDAO.deleteById(IOService.getNumericInput());
                     if (deletedClient == null) {
                         System.out.println("Client not found");
                     } else {
@@ -73,18 +72,9 @@ public class ClientMenu extends AbstractMenu {
         }
     }
 
-    private Long getNumericInput() {
-        try {
-            return scanner.nextLong();
-        } catch (InputMismatchException e) {
-            scanner.nextLine();
-        }
-        return -1L;
-    }
-
     private void editClient() {
         Scanner scanner = new Scanner(System.in);
-        Client foundClient = clientDAO.findById(getNumericInput());
+        Client foundClient = clientDAO.findById(IOService.getNumericInput());
         if (foundClient == null) {
             System.out.println("Client not found");
         } else {
@@ -112,7 +102,7 @@ public class ClientMenu extends AbstractMenu {
     }
 
     private void displayClientDetails() {
-        Client foundClient = clientDAO.findById(getNumericInput());
+        Client foundClient = clientDAO.findById(IOService.getNumericInput());
         if (foundClient == null) {
             System.out.println("Client not found");
         } else {

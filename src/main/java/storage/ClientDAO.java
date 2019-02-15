@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ClientDAO implements GenericDAO<Client> {
-    private List<Client> clients = new ArrayList<>();
+    private static List<Client> clients = new ArrayList<>();
 
     public void initialize() {
         clients.add(new Client(1L, "Gigel", "12345", "56789", "cuca macaii"));

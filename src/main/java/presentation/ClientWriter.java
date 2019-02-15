@@ -1,6 +1,7 @@
 package presentation;
 
 import model.Client;
+import model.Order;
 
 import java.util.List;
 
@@ -11,6 +12,12 @@ public class ClientWriter implements ConsoleWriter<Client> {
         System.out.println("Phone number: " + client.getPhoneNumber());
         System.out.println("Social ID: " + client.getSocialId());
         System.out.println("Address: " + client.getAddress());
+        if (client.getOrders() != null) {
+            System.out.println("Orders: ");
+            for (Order order : client.getOrders()) {
+                System.out.print(order.getId() + ", ");
+            }
+        }
     }
 
     void writeAll(List<Client> clients) {

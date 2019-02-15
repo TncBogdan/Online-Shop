@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProductDAO implements GenericDAO<Product> {
-    private List<Product> products = new ArrayList<>();
+    private static List<Product> products = new ArrayList<>();
 
     public void initialize() {
         products.add(new Product(1L, "tigaie", "o tigaie mare", 23D));

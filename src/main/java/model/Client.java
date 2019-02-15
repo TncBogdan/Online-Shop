@@ -8,7 +8,7 @@ public class Client {
     private String phoneNumber;
     private String socialId;
     private String address;
-//    List<Order> orders; to be implemented
+    private List<Order> orders;
 
     public Client() {
     }
@@ -61,12 +61,11 @@ public class Client {
         this.address = address;
     }
 
-//    @Override
-//    public String toString() {
-//        return "Id: " + id +
-//                " Name: " + name +
-//                " Phone number: " + phoneNumber +
-//                " Social ID: " + socialId +
-//                " Address: " + address;
-//    }
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
+    }
 }

@@ -1,17 +1,19 @@
 package presentation;
 
 import model.Client;
+import storage.OrderDAO;
 
 import java.util.Scanner;
 
 public class ClientReader implements ConsoleReader<Client> {
+    private OrderDAO orderDAO = new OrderDAO();
+
     public Client read() {
         Client client = new Client();
         Scanner scanner = new Scanner(System.in);
         System.out.print("Name: ");
         String name = scanner.nextLine();
         System.out.print("Phone number: ");
-
         String phoneNumber = scanner.nextLine().trim();
         while (!phoneNumber.matches("0[0-9]{9}")) {
             System.out.print("Incorrect number. Insert again: ");

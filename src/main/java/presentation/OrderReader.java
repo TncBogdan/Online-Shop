@@ -3,6 +3,7 @@ package presentation;
 import model.Client;
 import model.Order;
 import model.Product;
+import service.IOService;
 import storage.ClientDAO;
 import storage.ProductDAO;
 
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
+
 
 public class OrderReader implements ConsoleReader<Order> {
     private Scanner scanner = new Scanner(System.in);
@@ -25,17 +27,17 @@ public class OrderReader implements ConsoleReader<Order> {
         Order order = new Order();
         new ClientWriter().writeAll(clientDAO.findAll());
         System.out.print("Select client: ");
-        Client selectedClient = clientDAO.findById(getNumericInput());
+        Client selectedClient = clientDAO.findById(IOService.getNumericInput());
         while (selectedClient == null) {
             System.out.print("Client not found. Select again: ");
-            selectedClient = clientDAO.findById(getNumericInput());
+            selectedClient = clientDAO.findById(IOService.getNumericInput());
         }
         new ProductWriter().writeAll(productDAO.findAll());
         System.out.print("Select no. of products: ");
-        Long noOfProducts = getNumericInput();
+        Long noOfProducts = IOService.getNumericInput();
         while (noOfProducts <= 0) {
             System.out.print("Incorrect number. Insert again: ");
-            noOfProducts = getNumericInput();
+            noOfProducts = IOService.getNumericInput();
         }
         List<Product> listOfProducts = getProducts(noOfProducts);
         System.out.print("Actual price: ");
@@ -45,15 +47,6 @@ public class OrderReader implements ConsoleReader<Order> {
         order.setFinalPrice(actualPrice);
         order.setTimestamp(Timestamp.valueOf(LocalDateTime.now()));
         return order;
-    }
-
-    private Long getNumericInput() {
-        try {
-            return scanner.nextLong();
-        } catch (InputMismatchException e) {
-            scanner.nextLine();
-        }
-        return -1L;
     }
 
     private Double getPrice() {
@@ -73,8 +66,8 @@ public class OrderReader implements ConsoleReader<Order> {
 
     private List<Product> getProducts(Long noOfItems) {
         for (int i = 0; i < noOfItems; i++) {
-            System.out.println("Product #" + i + ": ");
-            productDAO.findById(getNumericInput());
+            System.out.print("Product #" + (i + 1) + ": ");
+            productDAO.findById(IOService.getNumericInput());
         }
         List<Product> listOfProducts = new ArrayList<>();
 //        Product product1 = productReader.read();
@@ -82,5 +75,12 @@ public class OrderReader implements ConsoleReader<Order> {
 //        listOfProducts.add(product1);
 //        listOfProducts.add(product2);
         return listOfProducts;
+    }
+
+    public void setOrderToClient(Order order) {
+        Client client = order.getClient();
+        List<Order> orders = client.getOrders();
+        orders.add(order);
+        client.setOrders(orders);
     }
 }

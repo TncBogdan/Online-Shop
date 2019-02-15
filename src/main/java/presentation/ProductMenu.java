@@ -1,6 +1,7 @@
 package presentation;
 
 import model.Product;
+import service.IOService;
 import storage.ProductDAO;
 
 import java.util.InputMismatchException;
@@ -10,7 +11,6 @@ public class ProductMenu extends AbstractMenu {
     private ProductDAO productDAO = new ProductDAO();
     private ProductReader reader = new ProductReader();
     private ProductWriter writer = new ProductWriter();
-    private Scanner scanner = new Scanner(System.in);
 
     protected void displayOptions() {
 //        productDAO.initialize();
@@ -57,7 +57,7 @@ public class ProductMenu extends AbstractMenu {
                 } else {
                     writer.writeAll(productDAO.findAll());
                     System.out.print("Select product to delete: ");
-                    Product deletedProduct = productDAO.deleteById(getNumericInput());
+                    Product deletedProduct = productDAO.deleteById(IOService.getNumericInput());
                     if (deletedProduct == null) {
                         System.out.println("Product not found");
                     } else {
@@ -73,18 +73,9 @@ public class ProductMenu extends AbstractMenu {
         }
     }
 
-    private Long getNumericInput() {
-        try {
-            return scanner.nextLong();
-        } catch (InputMismatchException e) {
-            scanner.nextLine();
-        }
-        return -1L;
-    }
-
     private void editProduct() {
         Scanner scanner = new Scanner(System.in);
-        Product foundProduct = productDAO.findById(getNumericInput());
+        Product foundProduct = productDAO.findById(IOService.getNumericInput());
         if (foundProduct == null) {
             System.out.println("Product not found");
         } else {
@@ -104,7 +95,7 @@ public class ProductMenu extends AbstractMenu {
     }
 
     private void displayProductDetails() {
-        Product foundProduct = productDAO.findById(getNumericInput());
+        Product foundProduct = productDAO.findById(IOService.getNumericInput());
         if (foundProduct == null) {
             System.out.println("Product not found");
         } else {

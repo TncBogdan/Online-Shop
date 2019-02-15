@@ -1,20 +1,12 @@
 package model;
 
+import java.util.Map;
+
 public class Stock {
     private Long id;
-    private Product product;
-    private Integer quantity;
+    private Map<Product,Integer> products;
+//    private Integer quantity;
     private String location;
-
-    public Stock() {
-    }
-
-/*    public Stock(Integer id, Product product, Integer quantity, String location) {
-        this.id = id;
-        this.product = product;
-        this.quantity = quantity;
-        this.location = location;
-    }*/
 
     public Long getId() {
         return id;
@@ -24,21 +16,21 @@ public class Stock {
         this.id = id;
     }
 
-    public Product getProduct() {
-        return product;
+    public Map<Product,Integer> getProducts() {
+        return products;
     }
 
-    public void setProduct(Product product) {
-        this.product = product;
+    public void setProducts(Map<Product,Integer> products) {
+        this.products = products;
     }
 
-    public Integer getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
-    }
+//    public Integer getQuantity() {
+//        return quantity;
+//    }
+//
+//    public void setQuantity(Integer quantity) {
+//        this.quantity = quantity;
+//    }
 
     public String getLocation() {
         return location;

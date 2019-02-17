@@ -1,7 +1,7 @@
 package ro.sda.shop.presentation;
 
 import ro.sda.shop.model.Client;
-import ro.sda.shop.service.IOService;
+import ro.sda.shop.service.ConsoleUtil;
 import ro.sda.shop.storage.ClientDAO;
 
 import java.util.Scanner;
@@ -56,7 +56,10 @@ public class ClientMenu extends AbstractMenu {
                 } else {
                     writer.writeAll(clientDAO.findAll());
                     System.out.print("Select client to delete: ");
-                    boolean isDeleted = clientDAO.deleteById(IOService.getNumericInput());
+                    String inputMessage = " ClientID: ";
+                    String invalidMessage = "Invalid Client Id. Please, retry!";
+                    Long id = ConsoleUtil.readLong(inputMessage, invalidMessage);
+                    boolean isDeleted = clientDAO.deleteById(id);
                     if (!isDeleted) {
                         System.out.println("Client not found");
                     } else {
@@ -74,7 +77,9 @@ public class ClientMenu extends AbstractMenu {
 
     private void editClient() {
         Scanner scanner = new Scanner(System.in);
-        Client foundClient = clientDAO.findById(IOService.getNumericInput());
+        String inputMessage = " ClientID: ";
+        String invalidMessage = "Invalid Client Id. Please, retry!";
+        Client foundClient = clientDAO.findById(ConsoleUtil.readLong(inputMessage, invalidMessage));
         if (foundClient == null) {
             System.out.println("Client not found");
         } else {
@@ -102,7 +107,9 @@ public class ClientMenu extends AbstractMenu {
     }
 
     private void displayClientDetails() {
-        Client foundClient = clientDAO.findById(IOService.getNumericInput());
+        String inputMessage = " ClientID: ";
+        String invalidMessage = "Invalid Client Id. Please, retry!";
+        Client foundClient = clientDAO.findById(ConsoleUtil.readLong(inputMessage, invalidMessage));
         if (foundClient == null) {
             System.out.println("Client not found");
         } else {

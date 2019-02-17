@@ -1,7 +1,7 @@
 package ro.sda.shop.presentation;
 
 import ro.sda.shop.model.Stock;
-import ro.sda.shop.service.IOService;
+import ro.sda.shop.service.ConsoleUtil;
 import ro.sda.shop.storage.StockDAO;
 
 import java.util.Scanner;
@@ -59,7 +59,9 @@ public class StockMenu extends AbstractMenu {
                 } else {
                     writer.writeAll(stockDAO.findAll());
                     System.out.print("Select stock to delete: ");
-                    boolean isDeleted = stockDAO.deleteById(IOService.getNumericInput());
+                    String inputMessage = " StockID: ";
+                    String invalidMessage = "Invalid Stock Id. Please, retry!";
+                    boolean isDeleted = stockDAO.deleteById(ConsoleUtil.readLong(inputMessage, invalidMessage));
                     if (!isDeleted) {
                         System.out.println("Stock not found");
                     } else {

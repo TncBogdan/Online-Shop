@@ -1,7 +1,7 @@
 package ro.sda.shop.presentation;
 
 import ro.sda.shop.model.Order;
-import ro.sda.shop.service.IOService;
+import ro.sda.shop.service.ConsoleUtil;
 import ro.sda.shop.storage.OrderDAO;
 
 public class OrderMenu extends AbstractMenu {
@@ -58,7 +58,9 @@ public class OrderMenu extends AbstractMenu {
                 } else {
                     writer.writeAll(orderDAO.findAll());
                     System.out.print("Select order to delete: ");
-                    boolean isDeleted = orderDAO.deleteById(IOService.getNumericInput());
+                    String inputMessage = " Order ID: ";
+                    String invalidMessage = "Invalid Order Id. Please, retry!";
+                    boolean isDeleted = orderDAO.deleteById(ConsoleUtil.readLong(inputMessage, invalidMessage));
                     if (!isDeleted) {
                         System.out.println("Order not found");
                     } else {
@@ -76,7 +78,7 @@ public class OrderMenu extends AbstractMenu {
 
     private void editOrder() {
 //        Scanner scanner = new Scanner(System.in);
-//        Order foundOrder = orderDAO.findById(IOService.getNumericInput());
+//        Order foundOrder = orderDAO.findById(ConsoleUtil.getNumericInput());
 //        if (foundOrder == null) {
 //            System.out.println("Order not found");
 //        } else {
@@ -104,7 +106,10 @@ public class OrderMenu extends AbstractMenu {
     }
 
     private void displayOrderDetails() {
-        Order foundOrder = orderDAO.findById(IOService.getNumericInput());
+        String inputMessage = " Order ID: ";
+        String invalidMessage = "Invalid Order Id. Please, retry!";
+        Long id = ConsoleUtil.readLong(inputMessage, invalidMessage);
+        Order foundOrder = orderDAO.findById(id);
         if (foundOrder == null) {
             System.out.println("Order not found");
         } else {

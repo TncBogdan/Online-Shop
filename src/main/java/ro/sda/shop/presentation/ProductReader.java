@@ -1,7 +1,7 @@
 package ro.sda.shop.presentation;
 
 import ro.sda.shop.model.Product;
-import ro.sda.shop.service.IOService;
+import ro.sda.shop.service.ConsoleUtil;
 
 import java.util.Scanner;
 
@@ -14,7 +14,7 @@ public class ProductReader implements ConsoleReader<Product> {
         System.out.print("Description: ");
         String description = scanner.nextLine();
         System.out.print("Price: ");
-        Double price = IOService.getPrice();
+        Double price = ConsoleUtil.getPrice();
         product.setName(name);
         product.setDescription(description);
         product.setPrice(price);

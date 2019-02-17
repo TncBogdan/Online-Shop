@@ -3,7 +3,7 @@ package ro.sda.shop.presentation;
 import ro.sda.shop.model.Client;
 import ro.sda.shop.model.Order;
 import ro.sda.shop.model.Product;
-import ro.sda.shop.service.IOService;
+import ro.sda.shop.service.ConsoleUtil;
 import ro.sda.shop.storage.ClientDAO;
 import ro.sda.shop.storage.ProductDAO;
 
@@ -22,22 +22,24 @@ public class OrderReader implements ConsoleReader<Order> {
         }
         Order order = new Order();
         new ClientWriter().writeAll(clientDAO.findAll());
-        System.out.print("Select client: ");
-        Client selectedClient = clientDAO.findById(IOService.getNumericInput());
+        String inpMessage = "Client ID";
+        String invalMessage = "Invalid client Id. Please, retry!";
+        Client selectedClient = clientDAO.findById(ConsoleUtil.readLong(inpMessage, invalMessage));
         while (selectedClient == null) {
             System.out.print("Client not found. Select again: ");
-            selectedClient = clientDAO.findById(IOService.getNumericInput());
+            selectedClient = clientDAO.findById(ConsoleUtil.readLong(inpMessage, invalMessage));
         }
         new ProductWriter().writeAll(productDAO.findAll());
-        System.out.print("Select no. of products: ");
-        Long noOfProducts = IOService.getNumericInput();
+        String inputMessage = "Number of products";
+        String invalidMessage = "Invalid number. Please, retry!";
+        Long noOfProducts = ConsoleUtil.readLong(inputMessage, invalidMessage);
         while (noOfProducts <= 0) {
             System.out.print("Incorrect number. Insert again: ");
-            noOfProducts = IOService.getNumericInput();
+            noOfProducts = ConsoleUtil.readLong(inputMessage, invalidMessage);
         }
         List<Product> listOfProducts = getProducts(noOfProducts);
         System.out.print("Actual price: ");
-        Double actualPrice = IOService.getPrice();
+        Double actualPrice = ConsoleUtil.getPrice();
         order.setClient(selectedClient);
         order.setOrderedProducts(listOfProducts);
         order.setFinalPrice(actualPrice);
@@ -46,15 +48,18 @@ public class OrderReader implements ConsoleReader<Order> {
     }
 
     private List<Product> getProducts(Long noOfItems) {
-        for (int i = 0; i < noOfItems; i++) {
-            System.out.print("Product #" + (i + 1) + ": ");
-            productDAO.findById(IOService.getNumericInput());
-        }
         List<Product> listOfProducts = new ArrayList<>();
-//        Product product1 = productReader.read();
-//        Product product2 = productReader.read();
-//        listOfProducts.add(product1);
-//        listOfProducts.add(product2);
+        for (int i = 0; i < noOfItems;){
+            //@sdatrainers - if you read this, beer is on us!!!!!!
+            System.out.print("Product #" + (i + 1) + ": ");
+            String inpMessage = "Product ID";
+            String invalMessage = "Invalid product Id. Please, retry!";
+            Product product = productDAO.findById(ConsoleUtil.readLong(inpMessage, invalMessage));
+            if(product != null) {
+                listOfProducts.add(product);
+                i++;
+            }
+        }
         return listOfProducts;
     }
 

@@ -1,7 +1,7 @@
 package ro.sda.shop.presentation;
 
 import ro.sda.shop.model.Product;
-import ro.sda.shop.service.IOService;
+import ro.sda.shop.service.ConsoleUtil;
 import ro.sda.shop.storage.ProductDAO;
 
 import java.util.InputMismatchException;
@@ -57,7 +57,10 @@ public class ProductMenu extends AbstractMenu {
                 } else {
                     writer.writeAll(productDAO.findAll());
                     System.out.print("Select product to delete: ");
-                    boolean isDeleted = productDAO.deleteById(IOService.getNumericInput());
+                    String inputMessage = " ProductID: ";
+                    String invalidMessage = "Invalid Product Id. Please, retry!";
+                    Long id = ConsoleUtil.readLong(inputMessage,invalidMessage);
+                    boolean isDeleted = productDAO.deleteById(id);
                     if (!isDeleted) {
                         System.out.println("Product not found");
                     } else {
@@ -75,7 +78,10 @@ public class ProductMenu extends AbstractMenu {
 
     private void editProduct() {
         Scanner scanner = new Scanner(System.in);
-        Product foundProduct = productDAO.findById(IOService.getNumericInput());
+        String inputMessage = " ProductID: ";
+        String invalidMessage = "Invalid Product Id. Please, retry!";
+        Long id = ConsoleUtil.readLong(inputMessage,invalidMessage);
+        Product foundProduct = productDAO.findById(id);
         if (foundProduct == null) {
             System.out.println("Product not found");
         } else {
@@ -95,7 +101,10 @@ public class ProductMenu extends AbstractMenu {
     }
 
     private void displayProductDetails() {
-        Product foundProduct = productDAO.findById(IOService.getNumericInput());
+        String inputMessage = " ProductID: ";
+        String invalidMessage = "Invalid Product Id. Please, retry!";
+        Long id = ConsoleUtil.readLong(inputMessage,invalidMessage);
+        Product foundProduct = productDAO.findById(id);
         if (foundProduct == null) {
             System.out.println("Product not found");
         } else {

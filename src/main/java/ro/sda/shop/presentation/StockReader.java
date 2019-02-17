@@ -1,7 +1,6 @@
 package ro.sda.shop.presentation;
 
 import ro.sda.shop.model.Stock;
-import ro.sda.shop.service.ConsoleUtil;
 import ro.sda.shop.storage.ProductDAO;
 
 import java.util.Scanner;

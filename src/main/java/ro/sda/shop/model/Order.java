@@ -10,10 +10,6 @@ public class Order extends Entity{
     private OrderStatus status;
     private Timestamp timestamp;
 
-    public Order() {
-        status = OrderStatus.PLACED;
-    }
-
     public Client getClient() {
         return client;
     }

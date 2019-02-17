@@ -12,5 +12,14 @@ public class StockDAO extends GenericDAO<Stock> {
     protected List<Stock> getItems() {
         return stocks;
     }
+
+    public Stock findByProductIdAndLocation(Long id, String location) {
+        for (Stock stock : getItems()) {
+            if (stock.getProduct().getId() == id && stock.getLocation().equals(location)) {
+                return stock;
+            }
+        }
+        return null;
+    }
 }
 

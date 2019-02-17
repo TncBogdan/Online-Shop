@@ -1,4 +1,4 @@
-package ro.sda.shop.service;
+package ro.sda.shop.presentation;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;

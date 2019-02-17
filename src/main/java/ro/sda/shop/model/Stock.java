@@ -3,9 +3,19 @@ package ro.sda.shop.model;
 import java.util.Map;
 
 public class Stock extends Entity {
+    public static final String DEFAULT_LOCATION = "Oradea";
     private Product product;
     private Integer quantity;
     private String location;
+
+    public Stock() {
+    }
+
+    public Stock(Product product, Integer quantity, String location) {
+        this.product = product;
+        this.quantity = quantity;
+        this.location = location;
+    }
 
     public Product getProduct() {
         return product;

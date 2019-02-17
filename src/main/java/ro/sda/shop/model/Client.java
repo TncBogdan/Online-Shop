@@ -7,6 +7,7 @@ public class Client extends Entity{
     private String phoneNumber;
     private String socialId;
     private String address;
+    private boolean active;
     private List<Order> orders;
 
     public Client() {
@@ -49,6 +50,14 @@ public class Client extends Entity{
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     public List<Order> getOrders() {

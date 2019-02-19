@@ -3,24 +3,27 @@ package ro.sda.shop.client;
 import ro.sda.shop.common.Entity;
 import ro.sda.shop.order.Order;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public class Client extends Entity {
     private String name;
     private String phoneNumber;
     private String socialId;
-    private String address;
+    private char gender;
+    private LocalDate dateOfBirth;
+    private List<Address> addresses;
     private boolean active;
     private List<Order> orders;
 
     public Client() {
     }
 
-    public Client(String name, String phoneNumber, String socialId, String address) {
+    public Client(String name, String phoneNumber, String socialId, List<Address> addresses) {
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.socialId = socialId;
-        this.address = address;
+        this.addresses = addresses;
     }
 
     public String getName() {
@@ -31,12 +34,28 @@ public class Client extends Entity {
         this.name = name;
     }
 
+    public char getGender() {
+        return gender;
+    }
+
+    public void setGender(char gender) {
+        this.gender = gender;
+    }
+
     public String getPhoneNumber() {
         return phoneNumber;
     }
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public LocalDate getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public void setDateOfBirth(LocalDate dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
     }
 
     public String getSocialId() {
@@ -47,12 +66,12 @@ public class Client extends Entity {
         this.socialId = socialId;
     }
 
-    public String getAddress() {
-        return address;
+    public List<Address> getAddresses() {
+        return addresses;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setAddresses(List<Address> addresses) {
+        this.addresses = addresses;
     }
 
     public boolean isActive() {

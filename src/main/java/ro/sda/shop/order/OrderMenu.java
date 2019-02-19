@@ -98,7 +98,7 @@ public class OrderMenu extends AbstractMenu {
 //                foundOrder.setSocialId(socialId);
 //            }
 //            System.out.print("Enter new adress: ");
-//            foundOrder.setAddress(scanner.next());
+//            foundOrder.setAddresses(scanner.next());
 //            orderDAO.update(foundOrder);
 //            System.out.println("Order updated");
 //        }

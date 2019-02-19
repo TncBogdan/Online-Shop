@@ -7,7 +7,7 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class ProductMenu extends AbstractMenu {
-    private ProductDAO productDAO = new ProductDAO();
+    private ProductService service = new ProductService();
     private ProductReader reader = new ProductReader();
     private ProductWriter writer = new ProductWriter();
 
@@ -22,50 +22,36 @@ public class ProductMenu extends AbstractMenu {
         System.out.println("0 - Exit");
     }
 
+    private void viewProductDetails(){
+        if (service.getAllProducts().isEmpty()) {
+            System.out.println("No products available.");
+        } else {
+            writer.writeAll(service.getAllProducts());
+//                    System.out.print("Select product to view: ");
+            displayProductDetails();
+        }
+    }
+
+
+
     protected void executeCmd(Integer option) {
         switch (option) {
             case 1:
-                writer.writeAll(productDAO.findAll());
+                writer.writeAll(service.getAllProducts());
                 break;
             case 2:
-                if (productDAO.findAll().isEmpty()) {
-                    System.out.println("No products available.");
-                } else {
-                    writer.writeAll(productDAO.findAll());
-                    System.out.print("Select product to view: ");
-                    displayProductDetails();
-                }
+                viewProductDetails();
                 break;
             case 3:
-                if (productDAO.findAll().isEmpty()) {
-                    System.out.println("No products available.");
-                } else {
-                    writer.writeAll(productDAO.findAll());
-                    System.out.print("Select product to edit: ");
-                    editProduct();
-                }
+                editProduct();
                 break;
             case 4:
                 Product newProduct = reader.read();
-                productDAO.add(newProduct);
+                service.save(newProduct);
                 System.out.println("Product added");
                 break;
             case 5:
-                if (productDAO.findAll().isEmpty()) {
-                    System.out.println("No products available.");
-                } else {
-                    writer.writeAll(productDAO.findAll());
-                    System.out.print("Select product to delete: ");
-                    String inputMessage = " ProductID: ";
-                    String invalidMessage = "Invalid Product Id. Please, retry!";
-                    Long id = ConsoleUtil.readLong(inputMessage,invalidMessage);
-                    boolean isDeleted = productDAO.deleteById(id);
-                    if (!isDeleted) {
-                        System.out.println("Product not found");
-                    } else {
-                        System.out.println("Product deleted");
-                    }
-                }
+                deleteProduct();
                 break;
             case 0:
                 System.out.println("Exiting to main menu");
@@ -75,35 +61,60 @@ public class ProductMenu extends AbstractMenu {
         }
     }
 
-    private void editProduct() {
-        Scanner scanner = new Scanner(System.in);
-        String inputMessage = " ProductID: ";
-        String invalidMessage = "Invalid Product Id. Please, retry!";
-        Long id = ConsoleUtil.readLong(inputMessage,invalidMessage);
-        Product foundProduct = productDAO.findById(id);
-        if (foundProduct == null) {
-            System.out.println("Product not found");
+    private void deleteProduct(){
+        if (service.getAllProducts().isEmpty()) {
+            System.out.println("No products available.");
         } else {
-            System.out.print("Enter new name: ");
-            foundProduct.setName(scanner.next());
-            System.out.print("Enter new description: ");
-            foundProduct.setDescription(scanner.next());
-            System.out.print("Enter new price: ");
-            try {
-                foundProduct.setPrice(scanner.nextDouble());
-            } catch (InputMismatchException e) {
-                System.out.println("Price not changed");
+            writer.writeAll(service.getAllProducts());
+            System.out.print("Select product to delete: ");
+            String inputMessage = " ProductID: ";
+            String invalidMessage = "Invalid Product Id. Please, retry!";
+            Long id = ConsoleUtil.readLong(inputMessage,invalidMessage);
+            boolean isDeleted = service.delete(id);
+            if (!isDeleted) {
+                System.out.println("Product not found");
+            } else {
+                System.out.println("Product deleted");
             }
-            productDAO.update(foundProduct);
-            System.out.println("Product updated");
         }
     }
 
+    private void editProduct(){
+
+        if (service.getAllProducts().isEmpty()) {
+            System.out.println("No products available.");
+        } else {
+            writer.writeAll(service.getAllProducts());
+            System.out.print("Select product to edit: ");
+            Scanner scanner = new Scanner(System.in);
+            String inputMessage = "Product ID: ";
+            String invalidMessage = "Invalid Product ID. Please retry: ";
+            Long id = ConsoleUtil.readLong(inputMessage,invalidMessage);
+            Product foundProduct = service.getProduct(id);
+            if (foundProduct == null) {
+                System.out.println("Product not found");
+            } else {
+                System.out.print("Enter new name: ");
+                foundProduct.setName(scanner.next());
+                System.out.print("Enter new description: ");
+                foundProduct.setDescription(scanner.next());
+                System.out.print("Enter new price: ");
+                try {
+                    foundProduct.setPrice(scanner.nextDouble());
+                } catch (InputMismatchException e) {
+                    System.out.println("Price not changed");
+                }
+                service.save(foundProduct);
+                System.out.println("Product updated");
+            }        }
+    }
+
+
     private void displayProductDetails() {
-        String inputMessage = " ProductID: ";
-        String invalidMessage = "Invalid Product Id. Please, retry!";
+        String inputMessage = "Product ID: ";
+        String invalidMessage = "Invalid Product Id. Please retry: ";
         Long id = ConsoleUtil.readLong(inputMessage,invalidMessage);
-        Product foundProduct = productDAO.findById(id);
+        Product foundProduct = service.getProduct(id);
         if (foundProduct == null) {
             System.out.println("Product not found");
         } else {

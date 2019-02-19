@@ -27,7 +27,5 @@ public abstract class AbstractMenu {
             return -1;
         }
     }
-
-
 }
 

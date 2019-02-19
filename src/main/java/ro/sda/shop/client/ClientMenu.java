@@ -99,7 +99,7 @@ public class ClientMenu extends AbstractMenu {
                 foundClient.setSocialId(socialId);
             }
             System.out.print("Enter new adress: ");
-            foundClient.setAddress(scanner.next());
+//            foundClient.setAddresses(scanner.next());
             clientDAO.update(foundClient);
             System.out.println("Client updated");
         }

@@ -10,8 +10,14 @@ public class ClientWriter implements ConsoleWriter<Client> {
         System.out.println("Id: " + client.getId());
         System.out.println("Name: " + client.getName());
         System.out.println("Phone number: " + client.getPhoneNumber());
+        System.out.print("  Date of birth: " + client.getDateOfBirth());
         System.out.println("Social ID: " + client.getSocialId());
-        System.out.println("Address: " + client.getAddress());
+        int i = 1;
+        for (Address address : client.getAddresses()) {
+            System.out.print("  Address #" + i + ": " + address);
+            i++;
+        }
+        System.out.print("  Status: " + (client.isActive() ? "active" : "inactive"));
         if (client.getOrders() != null) {
             System.out.println("Orders: ");
             for (Order order : client.getOrders()) {
@@ -35,7 +41,13 @@ public class ClientWriter implements ConsoleWriter<Client> {
         System.out.print("Id: " + client.getId());
         System.out.print("  Name: " + client.getName());
         System.out.print("  Phone number: " + client.getPhoneNumber());
+        System.out.print("  Date of birth: " + client.getDateOfBirth());
         System.out.print("  Social ID: " + client.getSocialId());
-        System.out.println("  Address: " + client.getAddress());
+        int i = 1;
+        for (Address address : client.getAddresses()) {
+            System.out.print("  Address #" + i + ": " + address);
+            i++;
+        }
+        System.out.print("  Status: " + (client.isActive() ? "active" : "inactive"));
     }
 }

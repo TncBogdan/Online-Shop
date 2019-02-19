@@ -57,9 +57,7 @@ public class OrderMenu extends AbstractMenu {
                 } else {
                     writer.writeAll(orderDAO.findAll());
                     System.out.print("Select order to delete: ");
-                    String inputMessage = " Order ID: ";
-                    String invalidMessage = "Invalid Order Id. Please, retry!";
-                    boolean isDeleted = orderDAO.deleteById(ConsoleUtil.readLong(inputMessage, invalidMessage));
+                    boolean isDeleted = orderDAO.deleteById(ConsoleUtil.readLong());
                     if (!isDeleted) {
                         System.out.println("Order not found");
                     } else {
@@ -105,9 +103,7 @@ public class OrderMenu extends AbstractMenu {
     }
 
     private void displayOrderDetails() {
-        String inputMessage = " Order ID: ";
-        String invalidMessage = "Invalid Order Id. Please, retry!";
-        Long id = ConsoleUtil.readLong(inputMessage, invalidMessage);
+        Long id = ConsoleUtil.readLong();
         Order foundOrder = orderDAO.findById(id);
         if (foundOrder == null) {
             System.out.println("Order not found");

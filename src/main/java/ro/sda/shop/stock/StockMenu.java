@@ -58,9 +58,7 @@ public class StockMenu extends AbstractMenu {
                 } else {
                     writer.writeAll(stockDAO.findAll());
                     System.out.print("Select stock to delete: ");
-                    String inputMessage = " StockID: ";
-                    String invalidMessage = "Invalid Stock Id. Please, retry!";
-                    boolean isDeleted = stockDAO.deleteById(ConsoleUtil.readLong(inputMessage, invalidMessage));
+                    boolean isDeleted = stockDAO.deleteById(ConsoleUtil.readLong());
                     if (!isDeleted) {
                         System.out.println("Stock not found");
                     } else {

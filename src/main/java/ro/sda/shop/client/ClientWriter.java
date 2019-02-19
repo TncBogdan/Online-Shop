@@ -15,7 +15,9 @@ public class ClientWriter implements ConsoleWriter<Client> {
         System.out.println("Date of birth: " + client.getDateOfBirth());
         int i = 1;
         for (Address address : client.getAddresses()) {
-            System.out.print("Address #" + i + ": " + address);
+            System.out.println("Address #" + i + ": " + address.getAddress() + " " +
+                    address.getCity() + " " + address.getCounty() + ", Zip code: " +
+                    address.getZipCode());
             i++;
         }
         System.out.println("Status: " + (client.isActive() ? "active" : "inactive"));
@@ -49,7 +51,9 @@ public class ClientWriter implements ConsoleWriter<Client> {
         System.out.print("  Date of birth: " + client.getDateOfBirth());
         int i = 1;
         for (Address address : client.getAddresses()) {
-            System.out.print("  Address #" + i + ": " + address);
+            System.out.print("  Address #" + i + ": " + address.getAddress() + " " +
+                    address.getCity() + " " + address.getCounty() + ", Zip code: " +
+                    address.getZipCode());
             i++;
         }
         System.out.print("  Status: " + (client.isActive() ? "active" : "inactive"));

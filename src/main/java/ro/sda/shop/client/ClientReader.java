@@ -29,7 +29,7 @@ public class ClientReader implements ConsoleReader<Client> {
 //        System.out.print("Date of birth (yyyy-mm-dd): ");
 //        LocalDate dateOfBirth = ConsoleUtil.getDateOfBirth();
         client.setDateOfBirth(ConsoleUtil.getDateOfBirth(socialId));
-        System.out.println("Address: ");
+//        System.out.println("Address: ");
         List<Address> addresses = new ArrayList<>();
         addresses.add(getAdress());
         client.setAddresses(addresses);
@@ -37,32 +37,42 @@ public class ClientReader implements ConsoleReader<Client> {
         return client;
     }
 
-    public Address getAdress() {
+    private Address getAdress() {
         Address address = new Address();
-        System.out.print("Street: ");
-        address.setStreet(scanner.nextLine());
-        System.out.print("Number: ");
-        address.setNumber(scanner.nextLine());
-        System.out.print("Block: ");
-        address.setBlock(scanner.nextLine());
-        System.out.print("Staircase: ");
-        address.setStaircase(scanner.nextLine());
-        System.out.print("Floor: ");
-        address.setFloor(scanner.nextLine());
-        System.out.print("Apartment: ");
-        address.setApartment(scanner.nextLine());
+//        System.out.print("Street: ");
+//        address.setStreet(scanner.nextLine());
+//        System.out.print("Number: ");
+//        address.setNumber(scanner.nextLine());
+//        System.out.print("Block: ");
+//        address.setBlock(scanner.nextLine());
+//        System.out.print("Staircase: ");
+//        address.setStaircase(scanner.nextLine());
+//        System.out.print("Floor: ");
+//        address.setFloor(scanner.nextLine());
+//        System.out.print("Apartment: ");
+//        address.setApartment(scanner.nextLine());
+        System.out.print("Adress: ");
+        address.setAddress(scanner.nextLine());
         System.out.print("City: ");
-        String city = scanner.nextLine().toUpperCase();
-//        String[] availableCities = City.values();
-//        while (!City.values().equals(city)) {
-//            System.out.print("Incorrect city. Insert again: ");
-//            city = scanner.nextLine().toUpperCase();
-//        }
-//        address.setCity(city);
-//        System.out.print("County: ");
-//        address.getLocation().setCounty(scanner.nextLine());
-//        System.out.print("Zip code: ");
-//        address.getLocation().setZipCode(scanner.nextInt());
+        City[] availableCities = City.values();
+        boolean isValid = false;
+        while (!isValid) {
+            String city = scanner.nextLine().toUpperCase();
+            for (int i = 0; i < availableCities.length; i++) {
+                if (city.equals(availableCities[i].toString())) {
+                    isValid = true;
+                    address.setCity(availableCities[i]);
+                    break;
+                }
+            }
+            if (!isValid) {
+                System.out.print("Invalid city. Try again: ");
+            }
+        }
+        System.out.print("County: ");
+        address.setCounty(scanner.nextLine().toUpperCase());
+        System.out.print("Zip code: ");
+        address.setZipCode(ConsoleUtil.getZipCode());
         return address;
     }
 }

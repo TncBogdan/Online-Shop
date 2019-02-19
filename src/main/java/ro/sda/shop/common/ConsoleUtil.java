@@ -9,21 +9,24 @@ public class ConsoleUtil {
     private static Scanner scanner = new Scanner(System.in);
     static final Integer MAX_RETRIES = 3;
 
-    public static Long readLong(String inputMessage, String invalidInputMessage) {
+    public static Long readLong(String invalidInputMessage) {
         Long result = null;
         int retries = 0;
         while (retries < MAX_RETRIES && result == null) {
             try {
 //                System.out.println();
-                System.out.print(inputMessage);
                 result = scanner.nextLong();
             } catch (InputMismatchException exception) {
                 scanner.nextLine();
-                System.out.println(invalidInputMessage);
+                System.out.print(invalidInputMessage);
             }
             retries++;
         }
         return result;
+    }
+
+    public static Long readLong() {
+        return readLong("Invalid id. Please retry: ");
     }
 
     public static Double getPrice() {
@@ -61,7 +64,6 @@ public class ConsoleUtil {
 
     public static String getSocialId() {
         String socialId = scanner.nextLine().trim();
-
         LocalDate dateOfBirth = LocalDate.of(0, 1, 1);
         while (true) {
             if (!socialId.matches("[1|2|5|6][0-9]{12}")) {
@@ -90,5 +92,14 @@ public class ConsoleUtil {
             year += 100;
         }
         return LocalDate.of(year, month, day);
+    }
+
+    public static String getZipCode(){
+        String zipCode = scanner.nextLine().trim();
+        while (!zipCode.matches("[0-9]{6}")) {
+            System.out.print("Incorrect zip code. Try again: ");
+            zipCode = scanner.nextLine().trim();
+        }
+        return zipCode;
     }
 }

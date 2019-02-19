@@ -16,12 +16,10 @@ public class StockReader implements ConsoleReader<Stock> {
         }
         Stock stock = new Stock();
         new ProductWriter().writeAll(productDAO.findAll());
-        String inputMessage = " Number of products ";
-        String invalidMessage = "Invalid number. Please, retry!";
-        Long noOfProducts = ConsoleUtil.readLong(inputMessage, invalidMessage);
+        String invalidMessage = "Invalid number. Please retry: ";
+        Long noOfProducts = ConsoleUtil.readLong(invalidMessage);
         while (noOfProducts <= 0) {
-            System.out.print("Incorrect number. Insert again: ");
-            noOfProducts = ConsoleUtil.readLong(inputMessage, invalidMessage);
+            noOfProducts = ConsoleUtil.readLong(invalidMessage);
         }
 
         Scanner scanner = new Scanner(System.in);

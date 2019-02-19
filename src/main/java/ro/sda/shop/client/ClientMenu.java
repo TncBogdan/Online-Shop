@@ -1,5 +1,6 @@
 package ro.sda.shop.client;
 
+import com.sun.org.apache.xpath.internal.SourceTree;
 import ro.sda.shop.common.AbstractMenu;
 import ro.sda.shop.common.ConsoleUtil;
 
@@ -31,7 +32,6 @@ public class ClientMenu extends AbstractMenu {
                     System.out.println("No clients available.");
                 } else {
                     writer.writeAll(clientDAO.findAll());
-                    System.out.print("Select client to view: ");
                     displayClientDetails();
                 }
                 break;
@@ -55,9 +55,7 @@ public class ClientMenu extends AbstractMenu {
                 } else {
                     writer.writeAll(clientDAO.findAll());
                     System.out.print("Select client to delete: ");
-                    String inputMessage = " ClientID: ";
-                    String invalidMessage = "Invalid Client Id. Please, retry!";
-                    Long id = ConsoleUtil.readLong(inputMessage, invalidMessage);
+                    Long id = ConsoleUtil.readLong();
                     boolean isDeleted = clientDAO.deleteById(id);
                     if (!isDeleted) {
                         System.out.println("Client not found");
@@ -76,9 +74,7 @@ public class ClientMenu extends AbstractMenu {
 
     private void editClient() {
         Scanner scanner = new Scanner(System.in);
-        String inputMessage = " ClientID: ";
-        String invalidMessage = "Invalid Client Id. Please, retry!";
-        Client foundClient = clientDAO.findById(ConsoleUtil.readLong(inputMessage, invalidMessage));
+        Client foundClient = clientDAO.findById(ConsoleUtil.readLong());
         if (foundClient == null) {
             System.out.println("Client not found");
         } else {
@@ -106,9 +102,8 @@ public class ClientMenu extends AbstractMenu {
     }
 
     private void displayClientDetails() {
-        String inputMessage = " ClientID: ";
-        String invalidMessage = "Invalid Client Id. Please, retry!";
-        Client foundClient = clientDAO.findById(ConsoleUtil.readLong(inputMessage, invalidMessage));
+        System.out.print("Select client to view: ");
+        Client foundClient = clientDAO.findById(ConsoleUtil.readLong());
         if (foundClient == null) {
             System.out.println("Client not found");
         } else {

@@ -24,20 +24,17 @@ public class OrderReader implements ConsoleReader<Order> {
         }
         Order order = new Order();
         new ClientWriter().writeAll(clientDAO.findAll());
-        String inpMessage = "Client ID";
-        String invalMessage = "Invalid client Id. Please, retry!";
-        Client selectedClient = clientDAO.findById(ConsoleUtil.readLong(inpMessage, invalMessage));
+        Client selectedClient = clientDAO.findById(ConsoleUtil.readLong());
         while (selectedClient == null) {
             System.out.print("Client not found. Select again: ");
-            selectedClient = clientDAO.findById(ConsoleUtil.readLong(inpMessage, invalMessage));
+            selectedClient = clientDAO.findById(ConsoleUtil.readLong());
         }
         new ProductWriter().writeAll(productDAO.findAll());
-        String inputMessage = "Number of products";
-        String invalidMessage = "Invalid number. Please, retry!";
-        Long noOfProducts = ConsoleUtil.readLong(inputMessage, invalidMessage);
+        System.out.print("Number of products: ");
+        String invalidMessage = "Invalid number. Please retry: ";
+        Long noOfProducts = ConsoleUtil.readLong(invalidMessage);
         while (noOfProducts <= 0) {
-            System.out.print("Incorrect number. Insert again: ");
-            noOfProducts = ConsoleUtil.readLong(inputMessage, invalidMessage);
+            noOfProducts = ConsoleUtil.readLong(invalidMessage);
         }
         List<Product> listOfProducts = getProducts(noOfProducts);
         System.out.print("Actual price: ");
@@ -54,9 +51,7 @@ public class OrderReader implements ConsoleReader<Order> {
         for (int i = 0; i < noOfItems;){
             //@sdatrainers - if you read this, beer is on us!!!!!!
             System.out.print("Product #" + (i + 1) + ": ");
-            String inpMessage = "Product ID";
-            String invalMessage = "Invalid product Id. Please, retry!";
-            Product product = productDAO.findById(ConsoleUtil.readLong(inpMessage, invalMessage));
+            Product product = productDAO.findById(ConsoleUtil.readLong());
             if(product != null) {
                 listOfProducts.add(product);
                 i++;

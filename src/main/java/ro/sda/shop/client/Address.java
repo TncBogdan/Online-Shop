@@ -1,77 +1,46 @@
 package ro.sda.shop.client;
 
 public class Address {
-    private String street;
-    private String number;
-    private String block;
-    private String staircase;
-    private String floor;
-    private String apartment;
-//    private Location location;
-    private String city;
+    //    private String street;
+//    private String number;
+//    private String block;
+//    private String staircase;
+//    private String floor;
+//    private String apartment;
+    private String address;
+    private City city;
+    private String county;
+    private String zipCode;
 
-    public String getStreet() {
-        return street;
+    public String getAddress() {
+        return address;
     }
 
-    public void setStreet(String street) {
-        this.street = street;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
-    public String getNumber() {
-        return number;
-    }
-
-    public void setNumber(String number) {
-        this.number = number;
-    }
-
-    public String getBlock() {
-        return block;
-    }
-
-    public void setBlock(String block) {
-        this.block = block;
-    }
-
-    public String getStaircase() {
-        return staircase;
-    }
-
-    public void setStaircase(String staircase) {
-        this.staircase = staircase;
-    }
-
-    public String getFloor() {
-        return floor;
-    }
-
-    public void setFloor(String floor) {
-        this.floor = floor;
-    }
-
-    public String getApartment() {
-        return apartment;
-    }
-
-    public void setApartment(String apartment) {
-        this.apartment = apartment;
-    }
-
-//    public Location getLocation() {
-//        return location;
-//    }
-//
-//    public void setLocation(Location location) {
-//        this.location = location;
-//    }
-
-
-    public String getCity() {
+    public City getCity() {
         return city;
     }
 
-    public void setCity(String city) {
+    public void setCity(City city) {
         this.city = city;
+    }
+
+    public String getCounty() {
+        return county;
+    }
+
+    public void setCounty(String county) {
+        this.county = county;
+    }
+
+    public String getZipCode() {
+        return zipCode;
+    }
+
+    public void setZipCode(String zipCode) {
+        this.zipCode = zipCode;
     }
 }

@@ -5,15 +5,21 @@ import java.util.List;
 public class ProductService {
     private ProductDAO productDAO = new ProductDAO();
 
-    public List<Product> getAllProducts() {
+    public void initialize() {
+        productDAO.add(new Product("Tv", "4k", 3300D));
+        productDAO.add(new Product("Consola", "PS4", 1300D));
+        productDAO.add(new Product("Laptop", "Asus", 2500D));
+    }
+
+    List<Product> getAllProducts() {
         return productDAO.findAll();
     }
 
-    public Product getProduct(Long id) {
+    Product getProduct(Long id) {
         return productDAO.findById(id);
     }
 
-    public Product save(Product product) {
+    Product save(Product product) {
         Product updatedProduct = null;
         if (product.getId() == null) {
             updatedProduct = productDAO.add(product);
@@ -24,7 +30,7 @@ public class ProductService {
         return updatedProduct;
     }
 
-    public boolean delete(Long id) {
+    boolean delete(Long id) {
         return productDAO.deleteById(id);
     }
 }

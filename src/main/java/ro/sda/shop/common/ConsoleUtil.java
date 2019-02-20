@@ -1,7 +1,5 @@
 package ro.sda.shop.common;
 
-import java.time.DateTimeException;
-import java.time.LocalDate;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -44,62 +42,32 @@ public class ConsoleUtil {
         return price;
     }
 
-    public static char getGender() {
-        char gender = scanner.nextLine().toUpperCase().charAt(0);
-        while (gender != 'M' && gender != 'F') {
-            System.out.print("Incorrect gender. Insert again: ");
-            gender = scanner.nextLine().toUpperCase().charAt(0);
+    public static String toSentenceCase(String input) {
+        char firstLetter = input.charAt(0);
+        if (firstLetter >= 'a' && firstLetter <= 'z') {
+            firstLetter -= 32;
+            return firstLetter + input.substring(1);
         }
-        return gender;
+        return input;
     }
 
-    public static String getPhoneNumber() {
-        String phoneNumber = scanner.nextLine().trim();
-        while (!phoneNumber.matches("0[0-9]{9}")) {
-            System.out.print("Incorrect number. Insert again: ");
-            phoneNumber = scanner.nextLine().trim();
-        }
-        return phoneNumber;
-    }
-
-    public static String getSocialId() {
-        String socialId = scanner.nextLine().trim();
-        LocalDate dateOfBirth = LocalDate.of(0, 1, 1);
-        while (true) {
-            if (!socialId.matches("[1|2|5|6][0-9]{12}")) {
-                System.out.print("Incorrect ID. Insert again: ");
-                socialId = scanner.nextLine().trim();
-            } else {
-                try {
-                    dateOfBirth = getDateOfBirth(socialId);
-                } catch (DateTimeException e) {
-//                    System.out.println(e.getMessage());
+    public static String capitalizeEachWord(String input) {
+        String[] separators = {" ", "-"};
+        String finalString = input.trim();
+        for (int j = 0; j < separators.length; j++) {
+            String tempString = "";
+            String[] words = finalString.split(separators[j]);
+            for (int i = 0; i < words.length; i++) {
+                if (!words[i].isEmpty()) {
+                    words[i] = toSentenceCase(words[i]);
+                    if (i < words.length - 1) {
+                        words[i] += separators[j];
+                    }
+                    tempString += words[i];
                 }
-                if (dateOfBirth.isAfter(LocalDate.now()) || dateOfBirth.getYear() < 1900) {
-                    System.out.print("Incorrect ID. Insert again: ");
-                    socialId = scanner.nextLine().trim();
-                } else break;
             }
+            finalString = tempString;
         }
-        return socialId;
-    }
-
-    public static LocalDate getDateOfBirth(String socialId) {
-        int year = 1900 + Integer.parseInt(socialId.substring(1, 3));
-        int month = Integer.parseInt(socialId.substring(3, 5));
-        int day = Integer.parseInt(socialId.substring(5, 7));
-        if (socialId.charAt(0) == '5' || socialId.charAt(0) == '6') {
-            year += 100;
-        }
-        return LocalDate.of(year, month, day);
-    }
-
-    public static String getZipCode(){
-        String zipCode = scanner.nextLine().trim();
-        while (!zipCode.matches("[0-9]{6}")) {
-            System.out.print("Incorrect zip code. Try again: ");
-            zipCode = scanner.nextLine().trim();
-        }
-        return zipCode;
+        return finalString;
     }
 }

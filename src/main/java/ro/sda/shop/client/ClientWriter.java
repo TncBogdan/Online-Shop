@@ -10,6 +10,7 @@ public class ClientWriter implements ConsoleWriter<Client> {
         System.out.println("Id: " + client.getId());
         System.out.println("Name: " + client.getName());
         System.out.println("Phone number: " + client.getPhoneNumber());
+        System.out.println("Email: " + client.getEmail());
         System.out.println("Social ID: " + client.getSocialId());
         System.out.println("Gender: " + client.getGender());
         System.out.println("Date of birth: " + client.getDateOfBirth());
@@ -46,6 +47,7 @@ public class ClientWriter implements ConsoleWriter<Client> {
         System.out.print("Id: " + client.getId());
         System.out.print("  Name: " + client.getName());
         System.out.print("  Phone number: " + client.getPhoneNumber());
+        System.out.print("  Email: " + client.getEmail());
         System.out.print("  Social ID: " + client.getSocialId());
         System.out.print("  Gender: " + client.getGender());
         System.out.print("  Date of birth: " + client.getDateOfBirth());

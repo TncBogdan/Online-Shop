@@ -39,6 +39,4 @@ public class Product extends Entity {
     public void setDescription(String description) {
         this.description = description;
     }
-
-
 }

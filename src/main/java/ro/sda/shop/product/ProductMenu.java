@@ -3,7 +3,6 @@ package ro.sda.shop.product;
 import ro.sda.shop.common.AbstractMenu;
 import ro.sda.shop.common.ConsoleUtil;
 
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class ProductMenu extends AbstractMenu {
@@ -12,7 +11,6 @@ public class ProductMenu extends AbstractMenu {
     private ProductWriter writer = new ProductWriter();
 
     protected void displayOptions() {
-//        productDAO.initialize();
         System.out.println("\nProducts menu");
         System.out.println("1 - View all products");
         System.out.println("2 - View product details");
@@ -55,8 +53,7 @@ public class ProductMenu extends AbstractMenu {
         } else {
             writer.writeAll(service.getAllProducts());
             System.out.print("Select product to view: ");
-            Long id = ConsoleUtil.readLong();
-            Product foundProduct = service.getProduct(id);
+            Product foundProduct = service.getProduct(ConsoleUtil.readLong());
             if (foundProduct == null) {
                 System.out.println("Product not found");
             } else {
@@ -72,8 +69,7 @@ public class ProductMenu extends AbstractMenu {
         } else {
             writer.writeAll(service.getAllProducts());
             System.out.print("Select product to edit: ");
-            Long id = ConsoleUtil.readLong();
-            Product foundProduct = service.getProduct(id);
+            Product foundProduct = service.getProduct(ConsoleUtil.readLong());
             if (foundProduct == null) {
                 System.out.println("Product not found");
             } else {
@@ -101,8 +97,7 @@ public class ProductMenu extends AbstractMenu {
         } else {
             writer.writeAll(service.getAllProducts());
             System.out.print("Select product to delete: ");
-            Long id = ConsoleUtil.readLong();
-            boolean isDeleted = service.delete(id);
+            boolean isDeleted = service.delete(ConsoleUtil.readLong());
             if (!isDeleted) {
                 System.out.println("Product not found");
             } else {

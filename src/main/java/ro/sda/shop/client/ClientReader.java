@@ -1,8 +1,11 @@
 package ro.sda.shop.client;
 
+import org.hazlewood.connor.bottema.emailaddress.EmailAddressValidator;
 import ro.sda.shop.common.ConsoleReader;
 import ro.sda.shop.common.ConsoleUtil;
 
+import java.time.DateTimeException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -13,13 +16,15 @@ public class ClientReader implements ConsoleReader<Client> {
     public Client read() {
         Client client = new Client();
         System.out.print("Name: ");
-        client.setName(scanner.nextLine());
+        client.setName(ConsoleUtil.capitalizeEachWord(scanner.nextLine()));
         //System.out.print("Gender (m/f): ");
-        //char gender = ConsoleUtil.getGender();
+        //char gender = getGender();
         System.out.print("Phone number: ");
-        client.setPhoneNumber(ConsoleUtil.getPhoneNumber());
+        client.setPhoneNumber(getPhoneNumber());
+        System.out.print("Email: ");
+        client.setEmail(getEmail());
         System.out.print("Social ID: ");
-        String socialId = ConsoleUtil.getSocialId();
+        String socialId = getSocialId();
         if (socialId.charAt(0) == '1' || socialId.charAt(0) == '5') {
             client.setGender('M');
         } else {
@@ -27,17 +32,95 @@ public class ClientReader implements ConsoleReader<Client> {
         }
         client.setSocialId(socialId);
 //        System.out.print("Date of birth (yyyy-mm-dd): ");
-//        LocalDate dateOfBirth = ConsoleUtil.getDateOfBirth();
-        client.setDateOfBirth(ConsoleUtil.getDateOfBirth(socialId));
-//        System.out.println("Address: ");
+//        LocalDate dateOfBirth = getDateOfBirth();
+        client.setDateOfBirth(getDateOfBirth(socialId));
         List<Address> addresses = new ArrayList<>();
-        addresses.add(getAdress());
+        addresses.add(getAddress());
         client.setAddresses(addresses);
         client.setActive(true);
         return client;
     }
 
-    private Address getAdress() {
+    String getPhoneNumber() {
+        String phoneNumber = scanner.nextLine().trim();
+        while (!phoneNumber.matches("0[0-9]{9}")) {
+            System.out.print("Incorrect number. Insert again: ");
+            phoneNumber = scanner.nextLine().trim();
+        }
+        return phoneNumber;
+    }
+
+    String getEmail() {
+        String email = scanner.nextLine().trim();
+        boolean isValid = EmailAddressValidator.isValid(email);
+        while (!isValid) {
+            System.out.print("Incorrect email. Insert again: ");
+            email = scanner.nextLine().trim();
+            isValid = EmailAddressValidator.isValid(email);
+        }
+        return email;
+    }
+
+    public char getGender() {
+        char gender = scanner.nextLine().toUpperCase().charAt(0);
+        while (gender != 'M' && gender != 'F') {
+            System.out.print("Incorrect gender. Insert again: ");
+            gender = scanner.nextLine().toUpperCase().charAt(0);
+        }
+        return gender;
+    }
+
+    String getSocialId() {
+        String socialId = scanner.nextLine().trim();
+        LocalDate dateOfBirth = LocalDate.of(0, 1, 1);
+        while (true) {
+            if (!socialId.matches("[1|2|5|6][0-9]{12}")) {
+                System.out.print("Incorrect ID. Insert again: ");
+                socialId = scanner.nextLine().trim();
+            } else {
+                try {
+                    dateOfBirth = getDateOfBirth(socialId);
+                } catch (DateTimeException e) {
+//                    System.out.println(e.getMessage());
+                }
+                if (dateOfBirth.isAfter(LocalDate.now()) || dateOfBirth.getYear() < 1900) {
+                    System.out.print("Incorrect ID. Insert again: ");
+                    socialId = scanner.nextLine().trim();
+                } else break;
+            }
+        }
+        return socialId;
+    }
+
+    LocalDate getDateOfBirth(String socialId) {
+        int year = 1900 + Integer.parseInt(socialId.substring(1, 3));
+        int month = Integer.parseInt(socialId.substring(3, 5));
+        int day = Integer.parseInt(socialId.substring(5, 7));
+        if (socialId.charAt(0) == '5' || socialId.charAt(0) == '6') {
+            year += 100;
+        }
+        return LocalDate.of(year, month, day);
+    }
+
+    private String getZipCode() {
+        String zipCode = scanner.nextLine().trim();
+        while (!zipCode.matches("[0-9]{6}")) {
+            System.out.print("Incorrect zip code. Try again: ");
+            zipCode = scanner.nextLine().trim();
+        }
+        return zipCode;
+    }
+
+    private String getCounty() {
+        String county = scanner.nextLine();
+        while (!county.matches("[a-zA-Z \\-]{1,}")) {
+            System.out.print("Incorrect county. Try again: ");
+            county = scanner.nextLine().trim();
+        }
+        return county;
+    }
+
+    Address getAddress() {
         Address address = new Address();
 //        System.out.print("Street: ");
 //        address.setStreet(scanner.nextLine());
@@ -52,16 +135,19 @@ public class ClientReader implements ConsoleReader<Client> {
 //        System.out.print("Apartment: ");
 //        address.setApartment(scanner.nextLine());
         System.out.print("Adress: ");
-        address.setAddress(scanner.nextLine());
+        address.setAddress(ConsoleUtil.capitalizeEachWord(scanner.nextLine()));
         System.out.print("City: ");
         City[] availableCities = City.values();
         boolean isValid = false;
         while (!isValid) {
-            String city = scanner.nextLine().toUpperCase();
-            for (int i = 0; i < availableCities.length; i++) {
-                if (city.equals(availableCities[i].toString())) {
+            String input = scanner.nextLine().trim().toLowerCase();
+            for (City city : City.values()) {
+                if (input.equals(city.toString().toLowerCase())) {
+//            for (int i = 0; i < availableCities.length; i++) {
+//                if (city.equals(availableCities[i].toString().toLowerCase())) {
                     isValid = true;
-                    address.setCity(availableCities[i]);
+//                    address.setCity(availableCities[i]);
+                    address.setCity(city);
                     break;
                 }
             }
@@ -70,9 +156,9 @@ public class ClientReader implements ConsoleReader<Client> {
             }
         }
         System.out.print("County: ");
-        address.setCounty(scanner.nextLine().toUpperCase());
+        address.setCounty(ConsoleUtil.capitalizeEachWord(getCounty()));
         System.out.print("Zip code: ");
-        address.setZipCode(ConsoleUtil.getZipCode());
+        address.setZipCode(getZipCode());
         return address;
     }
 }

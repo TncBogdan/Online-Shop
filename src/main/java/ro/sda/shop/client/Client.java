@@ -9,6 +9,7 @@ import java.util.List;
 public class Client extends Entity {
     private String name;
     private String phoneNumber;
+    private String email;
     private String socialId;
     private char gender;
     private LocalDate dateOfBirth;
@@ -16,20 +17,27 @@ public class Client extends Entity {
     private boolean active;
     private List<Order> orders;
 
+    public Client() {
+    }
+
+    public Client(String name, String phoneNumber, String email, String socialId, char gender, LocalDate dateOfBirth, List<Address> addresses, boolean active, List<Order> orders) {
+        this.name = name;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.socialId = socialId;
+        this.gender = gender;
+        this.dateOfBirth = dateOfBirth;
+        this.addresses = addresses;
+        this.active = active;
+        this.orders = orders;
+    }
+
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public char getGender() {
-        return gender;
-    }
-
-    public void setGender(char gender) {
-        this.gender = gender;
     }
 
     public String getPhoneNumber() {
@@ -40,12 +48,12 @@ public class Client extends Entity {
         this.phoneNumber = phoneNumber;
     }
 
-    public LocalDate getDateOfBirth() {
-        return dateOfBirth;
+    public String getEmail() {
+        return email;
     }
 
-    public void setDateOfBirth(LocalDate dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getSocialId() {
@@ -54,6 +62,22 @@ public class Client extends Entity {
 
     public void setSocialId(String socialId) {
         this.socialId = socialId;
+    }
+
+    public char getGender() {
+        return gender;
+    }
+
+    public void setGender(char gender) {
+        this.gender = gender;
+    }
+
+    public LocalDate getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public void setDateOfBirth(LocalDate dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
     }
 
     public List<Address> getAddresses() {

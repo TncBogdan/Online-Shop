@@ -1,21 +1,33 @@
 package ro.sda.shop.client;
 
-import ro.sda.shop.exceptions.NotFoundException;
-
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ClientService {
     private ClientDAO clientDAO = new ClientDAO();
 
-    public List<Client> getAllClients() {
+    public void initialize() {
+        List<Address> addresses1 = new ArrayList<>();
+        addresses1.add(new Address("strada Plopului", City.Bucuresti, "vaslui", "012"));
+        clientDAO.add(new Client("Gigel", "12345", "someone@domain.com",
+                "56789", 'm', LocalDate.of(2017, 2, 28),
+                addresses1, true, null));
+        List<Address> addresses2 = new ArrayList<>();
+        addresses2.add(new Address("aleea rozelor", City.Iasi, "vaslui", "123456789"));
+        clientDAO.add(new Client("Cornel", "abcdef", "blabla",
+                "!@#$%^&", 'b', LocalDate.now(), addresses2, true, null));
+    }
+
+    List<Client> getAllClients() {
         return clientDAO.findAll();
     }
 
-    public Client getClient(Long id) {
+    Client getClient(Long id) {
         return clientDAO.findById(id);
     }
 
-    public Client save(Client client) {
+    Client save(Client client) {
         Client updatedClient = null;
         if (client.getId() == null) {
             updatedClient = clientDAO.add(client);
@@ -26,12 +38,14 @@ public class ClientService {
         return updatedClient;
     }
 
-    public void deactivateClientAccount(Long id) {
+    boolean deactivateClientAccount(Long id) {
         Client client = getClient(id);
         if (client == null) {
-            throw new NotFoundException("Client not found with id: " + id);
+//            throw new NotFoundException("Client with id " + id + " not found");
+            return false;
         }
         client.setActive(false);
         save(client);
+        return true;
     }
 }

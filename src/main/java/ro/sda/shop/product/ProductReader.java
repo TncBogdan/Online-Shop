@@ -10,14 +10,11 @@ public class ProductReader implements ConsoleReader<Product> {
         Product product = new Product();
         Scanner scanner = new Scanner(System.in);
         System.out.print("Name: ");
-        String name = scanner.nextLine();
+        product.setName(ConsoleUtil.capitalizeEachWord(scanner.nextLine()));
         System.out.print("Description: ");
-        String description = scanner.nextLine();
+        product.setDescription(ConsoleUtil.toSentenceCase(scanner.nextLine()));
         System.out.print("Price: ");
-        Double price = ConsoleUtil.getPrice();
-        product.setName(name);
-        product.setDescription(description);
-        product.setPrice(price);
+        product.setPrice(ConsoleUtil.getPrice());
         return product;
     }
 }

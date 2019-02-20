@@ -12,6 +12,16 @@ public class Address {
     private String county;
     private String zipCode;
 
+    public Address() {
+    }
+
+    public Address(String address, City city, String county, String zipCode) {
+        this.address = address;
+        this.city = city;
+        this.county = county;
+        this.zipCode = zipCode;
+    }
+
     public String getAddress() {
         return address;
     }

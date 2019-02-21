@@ -22,7 +22,7 @@ public class ProductReader implements ConsoleReader<Product> {
             System.out.print("You must enter a description: ");
             description = scanner.nextLine().trim();
         }
-        product.setDescription(ConsoleUtil.toSentenceCase(description));
+        product.setDescription(ConsoleUtil.capitalizeFirstLetter(description));
         System.out.print("Price: ");
         product.setPrice(ConsoleUtil.getPrice(product));
         return product;

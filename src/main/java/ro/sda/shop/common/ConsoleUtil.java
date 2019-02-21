@@ -10,9 +10,8 @@ public class ConsoleUtil {
     public static Long readLong(String invalidInputMessage) {
         Long result = null;
         int retries = 0;
-        while (retries < MAX_RETRIES && result == null) {
+        while (result == null) {
             try {
-//                System.out.println();
                 result = scanner.nextLong();
             } catch (InputMismatchException exception) {
                 scanner.nextLine();
@@ -52,7 +51,7 @@ public class ConsoleUtil {
         return price;
     }
 
-    public static String toSentenceCase(String input) {
+    public static String capitalizeFirstLetter(String input) {
         char firstLetter = input.charAt(0);
         if (firstLetter >= 'a' && firstLetter <= 'z') {
             firstLetter -= 32;
@@ -60,6 +59,29 @@ public class ConsoleUtil {
         }
         return input;
     }
+
+//    public static String toSentenceCase(String input) {
+//        String[] sentences = input.split(".");
+//        String finalString = input;
+//        for (int i = 0; i < sentences.length; i++) {
+//            String tempString = "";
+//            if (!sentences[i].isEmpty()) {
+//                String[] words = sentences[i].split(" ");
+//                String firstWord = sentences[i].split(" ")[0];
+//                if(!)
+//                for (int j = 0; j < words.length; j++) {
+//                    if (!words[j].isEmpty()) {
+//                        words[j] = capitalizeFirstLetter(words[j]);
+//                        if (j < words.length - 1) {
+//                            words[j] += " ";
+//                        }
+//                        tempString += words[i];
+//                    }
+//                }
+//            }
+//        }
+//        return finalString;
+//    }
 
     public static String capitalizeEachWord(String input) {
         String[] separators = {" ", "-"};
@@ -69,7 +91,7 @@ public class ConsoleUtil {
             String[] words = finalString.split(separator);
             for (int i = 0; i < words.length; i++) {
                 if (!words[i].isEmpty()) {
-                    words[i] = toSentenceCase(words[i]);
+                    words[i] = capitalizeFirstLetter(words[i]);
                     if (i < words.length - 1) {
                         words[i] += separator;
                     }

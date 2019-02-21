@@ -82,7 +82,7 @@ public class ProductMenu extends AbstractMenu {
                 System.out.print("Enter new description (leave empty if the same): ");
                 String description = scanner.nextLine().trim();
                 if (!description.isEmpty()) {
-                    foundProduct.setDescription(ConsoleUtil.toSentenceCase(description));
+                    foundProduct.setDescription(ConsoleUtil.capitalizeFirstLetter(description));
                 }
                 System.out.print("Enter new price (leave empty if the same): ");
                 Double price = ConsoleUtil.getPrice(foundProduct);

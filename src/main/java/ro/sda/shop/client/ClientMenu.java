@@ -97,12 +97,8 @@ public class ClientMenu extends AbstractMenu {
                 foundClient.setEmail(email);
                 System.out.print("Enter new social ID (leave empty if the same): "); // nu prea e ok sa schimbam cnp-ul, pt. ca ar trebui sa fie unic si "imutabil"
                 String socialId = reader.getSocialId(foundClient);
-                if (socialId.charAt(0) == '1' || socialId.charAt(0) == '5') {
-                    foundClient.setGender('M');
-                } else {
-                    foundClient.setGender('F');
-                }
                 foundClient.setSocialId(socialId);
+                foundClient.setGender(reader.getGender(socialId));
                 foundClient.setDateOfBirth(reader.getDateOfBirth(socialId));
                 System.out.println("Enter new adress: ");
                 List<Address> addresses = foundClient.getAddresses();
@@ -120,12 +116,8 @@ public class ClientMenu extends AbstractMenu {
         } else {
             writer.writeAll(service.getAllClients());
             System.out.print("Select client to deactivate: ");
-            boolean isDeactivated = service.deactivateClientAccount(ConsoleUtil.readLong());
-            if (!isDeactivated) {
-                System.out.println("Client not found");
-            } else {
-                System.out.println("Client deactivated");
-            }
+            service.deactivateClient(ConsoleUtil.readLong());
+            System.out.println("Client deactivated");
         }
     }
 

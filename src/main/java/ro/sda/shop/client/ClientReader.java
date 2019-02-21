@@ -68,7 +68,7 @@ public class ClientReader implements ConsoleReader<Client> {
         return client.getEmail();
     }
 
-    private char getGender(String socialId) {
+    char getGender(String socialId) {
         if (socialId.charAt(0) == '1' || socialId.charAt(0) == '5') {
             return 'M';
         } else {

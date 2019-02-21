@@ -16,7 +16,7 @@ public class ClientService {
         List<Address> addresses2 = new ArrayList<>();
         addresses2.add(new Address("aleea rozelor", City.Iasi, "vaslui", "123456789"));
         clientDAO.add(new Client("Cornel", "abcdef", "blabla",
-                "1231213890123", 'b', LocalDate.of(1992,2,29),
+                "1231213890123", 'b', LocalDate.of(1992, 2, 29),
                 addresses2, true, null));
     }
 
@@ -39,14 +39,14 @@ public class ClientService {
         return updatedClient;
     }
 
-    boolean deactivateClientAccount(Long id) {
+    void deactivateClient(Long id) {
         Client client = getClient(id);
         if (client == null) {
-//            throw new NotFoundException("Client with id " + id + " not found");
-            return false;
+//            throw new NotFoundException(NullPointerException);// crapa daca introduci un client inexistent
+            System.out.println("Client not found");
+        } else {
+            client.setActive(false);
+            save(client);
         }
-        client.setActive(false);
-        save(client);
-        return true;
     }
 }

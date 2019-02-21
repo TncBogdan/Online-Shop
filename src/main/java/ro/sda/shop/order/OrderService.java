@@ -13,16 +13,12 @@ public class OrderService {
     private OrderDAO orderDAO = new OrderDAO();
     private StockService stockService = new StockService();
 
-    public List<Order> getAllOrders() {
+    List<Order> getAllOrders() {
         return orderDAO.findAll();
     }
 
-    public List<Order> getOrdersForClient(Long clientId) {
-        return orderDAO.findAllByClientId(clientId);
-    }
-
-    public List<Order> getOrdersBetweenDates(Timestamp start, Timestamp end) {
-        return orderDAO.findAllBetweenDates(start, end);
+    Order getOrder(Long id) {
+        return orderDAO.findById(id);
     }
 
     public Order save(Order order) {
@@ -46,7 +42,7 @@ public class OrderService {
     }
 
     private Double computePrice(List<Product> products) {
-        Double total = 0.D;
+        Double total = 0D;
         for (Product product : products) {
             total += product.getPrice();
         }
@@ -106,5 +102,13 @@ public class OrderService {
 
     private void returnMoney(Order order) {
         // Restituim banii clientului
+    }
+
+    public List<Order> getOrdersForClient(Long clientId) {
+        return orderDAO.findAllByClientId(clientId);
+    }
+
+    public List<Order> getOrdersBetweenDates(Timestamp start, Timestamp end) {
+        return orderDAO.findAllBetweenDates(start, end);
     }
 }

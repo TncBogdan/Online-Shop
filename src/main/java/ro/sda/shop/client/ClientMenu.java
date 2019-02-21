@@ -11,7 +11,6 @@ public class ClientMenu extends AbstractMenu {
     private ClientService service = new ClientService();
     private ClientReader reader = new ClientReader();
     private ClientWriter writer = new ClientWriter();
-    private Scanner scanner = new Scanner(System.in);
 
     protected void displayOptions() {
         System.out.println("\nClients menu");
@@ -84,14 +83,20 @@ public class ClientMenu extends AbstractMenu {
             if (foundClient == null) {
                 System.out.println("Client not found");
             } else {
-                System.out.print("Enter new name: ");
-                foundClient.setName(scanner.next());
-                System.out.print("Enter new phone number: ");
-                foundClient.setPhoneNumber(reader.getPhoneNumber());
-                System.out.print("Enter new email: ");
-                foundClient.setEmail(reader.getEmail());
-                System.out.print("Enter new social ID: "); // nu prea e ok sa schimbam cnp-ul, pt. ca ar trebui sa fie unic si "imutabil"
-                String socialId = reader.getSocialId();
+                Scanner scanner = new Scanner(System.in);
+                System.out.print("Enter new name (leave empty if the same): ");
+                String name = scanner.nextLine().trim();
+                if (!name.isEmpty()) {
+                    foundClient.setName(ConsoleUtil.capitalizeEachWord(name));
+                }
+                System.out.print("Enter new phone number (leave empty if the same): ");
+                String phoneNumber = reader.getPhoneNumber(foundClient);
+                foundClient.setPhoneNumber(phoneNumber);
+                System.out.print("Enter new email (leave empty if the same): ");
+                String email = reader.getEmail(foundClient);
+                foundClient.setEmail(email);
+                System.out.print("Enter new social ID (leave empty if the same): "); // nu prea e ok sa schimbam cnp-ul, pt. ca ar trebui sa fie unic si "imutabil"
+                String socialId = reader.getSocialId(foundClient);
                 if (socialId.charAt(0) == '1' || socialId.charAt(0) == '5') {
                     foundClient.setGender('M');
                 } else {

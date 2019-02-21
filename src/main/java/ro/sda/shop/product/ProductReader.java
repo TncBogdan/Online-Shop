@@ -10,9 +10,19 @@ public class ProductReader implements ConsoleReader<Product> {
         Product product = new Product();
         Scanner scanner = new Scanner(System.in);
         System.out.print("Name: ");
-        product.setName(ConsoleUtil.capitalizeEachWord(scanner.nextLine()));
+        String name = scanner.nextLine().trim();
+        while (name.isEmpty()) {
+            System.out.print("You must enter a name: ");
+            name = scanner.nextLine().trim();
+        }
+        product.setName(ConsoleUtil.capitalizeEachWord(name));
         System.out.print("Description: ");
-        product.setDescription(ConsoleUtil.toSentenceCase(scanner.nextLine()));
+        String description = scanner.nextLine().trim();
+        while (description.isEmpty()) {
+            System.out.print("You must enter a description: ");
+            description = scanner.nextLine().trim();
+        }
+        product.setDescription(ConsoleUtil.toSentenceCase(description));
         System.out.print("Price: ");
         product.setPrice(ConsoleUtil.getPrice());
         return product;

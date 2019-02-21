@@ -53,7 +53,7 @@ public class ConsoleUtil {
 
     public static String capitalizeEachWord(String input) {
         String[] separators = {" ", "-"};
-        String finalString = input.trim();
+        String finalString = input;
         for (String separator : separators) {
             String tempString = "";
             String[] words = finalString.split(separator);

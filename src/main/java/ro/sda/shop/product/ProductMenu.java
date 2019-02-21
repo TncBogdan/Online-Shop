@@ -74,10 +74,16 @@ public class ProductMenu extends AbstractMenu {
                 System.out.println("Product not found");
             } else {
                 Scanner scanner = new Scanner(System.in);
-                System.out.print("Enter new name: ");
-                foundProduct.setName(scanner.next());
-                System.out.print("Enter new description: ");
-                foundProduct.setDescription(scanner.next());
+                System.out.print("Enter new name (leave empty if the same): ");
+                String name = scanner.nextLine().trim();
+                if (!name.isEmpty()) {
+                    foundProduct.setName(ConsoleUtil.capitalizeEachWord(name));
+                }
+                System.out.print("Enter new description (leave empty if the same): ");
+                String description = scanner.nextLine().trim();
+                if (!description.isEmpty()) {
+                    foundProduct.setDescription(ConsoleUtil.toSentenceCase(description));
+                }
                 System.out.print("Enter new price: ");
                 foundProduct.setPrice(ConsoleUtil.getPrice());
 //                try {

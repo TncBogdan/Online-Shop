@@ -11,12 +11,13 @@ public class ClientService {
         List<Address> addresses1 = new ArrayList<>();
         addresses1.add(new Address("strada Plopului", City.Bucuresti, "vaslui", "012"));
         clientDAO.add(new Client("Gigel", "12345", "someone@domain.com",
-                "56789", 'm', LocalDate.of(2017, 2, 28),
+                "5120229225588", 'm', LocalDate.of(2017, 2, 28),
                 addresses1, true, null));
         List<Address> addresses2 = new ArrayList<>();
         addresses2.add(new Address("aleea rozelor", City.Iasi, "vaslui", "123456789"));
         clientDAO.add(new Client("Cornel", "abcdef", "blabla",
-                "!@#$%^&", 'b', LocalDate.now(), addresses2, true, null));
+                "1231213890123", 'b', LocalDate.of(1992,2,29),
+                addresses2, true, null));
     }
 
     List<Client> getAllClients() {

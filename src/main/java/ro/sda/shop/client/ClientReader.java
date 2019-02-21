@@ -16,21 +16,22 @@ public class ClientReader implements ConsoleReader<Client> {
     public Client read() {
         Client client = new Client();
         System.out.print("Name: ");
-        client.setName(ConsoleUtil.capitalizeEachWord(scanner.nextLine()));
-        //System.out.print("Gender (m/f): ");
-        //char gender = getGender();
-        System.out.print("Phone number: ");
-        client.setPhoneNumber(getPhoneNumber());
-        System.out.print("Email: ");
-        client.setEmail(getEmail());
-        System.out.print("Social ID: ");
-        String socialId = getSocialId();
-        if (socialId.charAt(0) == '1' || socialId.charAt(0) == '5') {
-            client.setGender('M');
-        } else {
-            client.setGender('F');
+        String name = scanner.nextLine().trim();
+        while (name.isEmpty()) {
+            System.out.print("You must enter a name: ");
+            name = scanner.nextLine().trim();
         }
+        client.setName(ConsoleUtil.capitalizeEachWord(name));
+//        System.out.print("Gender (m/f): ");
+//        char gender = getGender();
+        System.out.print("Phone number: ");
+        client.setPhoneNumber(getPhoneNumber(client));
+        System.out.print("Email: ");
+        client.setEmail(getEmail(client));
+        System.out.print("Social ID: ");
+        String socialId = getSocialId(client);
         client.setSocialId(socialId);
+        client.setGender(getGender(socialId));
 //        System.out.print("Date of birth (yyyy-mm-dd): ");
 //        LocalDate dateOfBirth = getDateOfBirth();
         client.setDateOfBirth(getDateOfBirth(socialId));
@@ -41,55 +42,63 @@ public class ClientReader implements ConsoleReader<Client> {
         return client;
     }
 
-    String getPhoneNumber() {
+    String getPhoneNumber(Client client) {
         String phoneNumber = scanner.nextLine().trim();
-        while (!phoneNumber.matches("0[0-9]{9}")) {
-            System.out.print("Incorrect number. Insert again: ");
-            phoneNumber = scanner.nextLine().trim();
+        if (client.getId() == null || (client.getId() != null && !phoneNumber.isEmpty())) {
+            while (!phoneNumber.matches("0[0-9]{9}")) {
+                System.out.print("Incorrect number. Insert again: ");
+                phoneNumber = scanner.nextLine().trim();
+            }
+            return phoneNumber;
         }
-        return phoneNumber;
+        return client.getPhoneNumber();
     }
 
-    String getEmail() {
+    String getEmail(Client client) {
         String email = scanner.nextLine().trim();
-        boolean isValid = EmailAddressValidator.isValid(email);
-        while (!isValid) {
-            System.out.print("Incorrect email. Insert again: ");
-            email = scanner.nextLine().trim();
-            isValid = EmailAddressValidator.isValid(email);
+        if (client.getId() == null || (client.getId() != null && !email.isEmpty())) {
+            boolean isValid = EmailAddressValidator.isValid(email);
+            while (!isValid) {
+                System.out.print("Incorrect email. Insert again: ");
+                email = scanner.nextLine().trim();
+                isValid = EmailAddressValidator.isValid(email);
+            }
+            return email;
         }
-        return email;
+        return client.getEmail();
     }
 
-    public char getGender() {
-        char gender = scanner.nextLine().toUpperCase().charAt(0);
-        while (gender != 'M' && gender != 'F') {
-            System.out.print("Incorrect gender. Insert again: ");
-            gender = scanner.nextLine().toUpperCase().charAt(0);
+    private char getGender(String socialId) {
+        if (socialId.charAt(0) == '1' || socialId.charAt(0) == '5') {
+            return 'M';
+        } else {
+            return 'F';
         }
-        return gender;
     }
 
-    String getSocialId() {
+    String getSocialId(Client client) {
         String socialId = scanner.nextLine().trim();
-        LocalDate dateOfBirth = LocalDate.of(0, 1, 1);
-        while (true) {
-            if (!socialId.matches("[1|2|5|6][0-9]{12}")) {
-                System.out.print("Incorrect ID. Insert again: ");
-                socialId = scanner.nextLine().trim();
-            } else {
-                try {
-                    dateOfBirth = getDateOfBirth(socialId);
-                } catch (DateTimeException e) {
-//                    System.out.println(e.getMessage());
-                }
-                if (dateOfBirth.isAfter(LocalDate.now()) || dateOfBirth.getYear() < 1900) {
+        if (client.getId() == null || (client.getId() != null && !socialId.isEmpty())) {
+            LocalDate dateOfBirth = LocalDate.of(0, 1, 1);
+            while (true) {
+                if (!socialId.matches("[1|2|5|6][0-9]{12}")) {
                     System.out.print("Incorrect ID. Insert again: ");
                     socialId = scanner.nextLine().trim();
-                } else break;
+                } else {
+                    try {
+                        dateOfBirth = getDateOfBirth(socialId);
+                    } catch (DateTimeException e) {
+                        System.out.println(e.getMessage());
+                    }
+                    if (dateOfBirth.isAfter(LocalDate.now()) || dateOfBirth.getYear() < 1900) {
+                        System.out.print("Incorrect ID. Insert again: ");
+                        socialId = scanner.nextLine().trim();
+                    } else break;
+                }
             }
+            return socialId;
         }
-        return socialId;
+        return client.getSocialId();
     }
 
     LocalDate getDateOfBirth(String socialId) {
@@ -116,8 +125,13 @@ public class ClientReader implements ConsoleReader<Client> {
 //        address.setFloor(scanner.nextLine());
 //        System.out.print("Apartment: ");
 //        address.setApartment(scanner.nextLine());
-        System.out.print("Adress: ");
-        address.setAddress(ConsoleUtil.capitalizeEachWord(scanner.nextLine()));
+        System.out.print("Address: ");
+        String location = scanner.nextLine().trim();
+        while (location.isEmpty()) {
+            System.out.print("You must enter an adress: ");
+            location = scanner.nextLine().trim();
+        }
+        address.setAddress(ConsoleUtil.capitalizeEachWord(location));
         System.out.print("City: ");
         address.setCity(getCity());
         System.out.print("County: ");
@@ -149,7 +163,7 @@ public class ClientReader implements ConsoleReader<Client> {
     }
 
     private String getCounty() {
-        String county = scanner.nextLine();
+        String county = scanner.nextLine().trim();
         while (!county.matches("[a-zA-Z \\-]{1,}")) {
             System.out.print("Incorrect county. Try again: ");
             county = scanner.nextLine().trim();

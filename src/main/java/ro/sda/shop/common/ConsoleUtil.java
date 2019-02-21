@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public class ConsoleUtil {
     private static Scanner scanner = new Scanner(System.in);
-    static final Integer MAX_RETRIES = 3;
+    private static final Integer MAX_RETRIES = 3;
 
     public static Long readLong(String invalidInputMessage) {
         Long result = null;
@@ -54,14 +54,14 @@ public class ConsoleUtil {
     public static String capitalizeEachWord(String input) {
         String[] separators = {" ", "-"};
         String finalString = input.trim();
-        for (int j = 0; j < separators.length; j++) {
+        for (String separator : separators) {
             String tempString = "";
-            String[] words = finalString.split(separators[j]);
+            String[] words = finalString.split(separator);
             for (int i = 0; i < words.length; i++) {
                 if (!words[i].isEmpty()) {
                     words[i] = toSentenceCase(words[i]);
                     if (i < words.length - 1) {
-                        words[i] += separators[j];
+                        words[i] += separator;
                     }
                     tempString += words[i];
                 }
@@ -69,5 +69,20 @@ public class ConsoleUtil {
             finalString = tempString;
         }
         return finalString;
+    }
+
+    public static int getInteger() {
+        int value = 0;
+        while (true) {
+            try {
+                value = scanner.nextInt();
+            } catch (InputMismatchException e) {
+                scanner.nextLine();
+            }
+            if (value <= 0)
+                System.out.print("Incorrect value. Insert again: ");
+            else break;
+        }
+        return value;
     }
 }

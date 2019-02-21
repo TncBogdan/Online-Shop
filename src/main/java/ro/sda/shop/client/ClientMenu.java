@@ -3,6 +3,7 @@ package ro.sda.shop.client;
 import ro.sda.shop.common.AbstractMenu;
 import ro.sda.shop.common.ConsoleUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -10,6 +11,7 @@ public class ClientMenu extends AbstractMenu {
     private ClientService service = new ClientService();
     private ClientReader reader = new ClientReader();
     private ClientWriter writer = new ClientWriter();
+    private Scanner scanner = new Scanner(System.in);
 
     protected void displayOptions() {
         System.out.println("\nClients menu");
@@ -18,6 +20,8 @@ public class ClientMenu extends AbstractMenu {
         System.out.println("3 - Edit client");
         System.out.println("4 - Add client");
         System.out.println("5 - Deactivate client");
+        System.out.println("6 - Search clients by city");
+        System.out.println("7 - Search clients by age");
         System.out.println("0 - Exit");
     }
 
@@ -39,6 +43,12 @@ public class ClientMenu extends AbstractMenu {
                 break;
             case 5:
                 deactivateClient();
+                break;
+            case 6:
+                searchByCity();
+                break;
+            case 7:
+                searchByAge();
                 break;
             case 0:
                 System.out.println("Exiting to main menu");
@@ -74,7 +84,6 @@ public class ClientMenu extends AbstractMenu {
             if (foundClient == null) {
                 System.out.println("Client not found");
             } else {
-                Scanner scanner = new Scanner(System.in);
                 System.out.print("Enter new name: ");
                 foundClient.setName(scanner.next());
                 System.out.print("Enter new phone number: ");
@@ -111,6 +120,58 @@ public class ClientMenu extends AbstractMenu {
                 System.out.println("Client not found");
             } else {
                 System.out.println("Client deactivated");
+            }
+        }
+    }
+
+    private void searchByCity() {
+        List<Client> clients = service.getAllClients();
+        if (clients.isEmpty()) {
+            System.out.println("No clients available.");
+        } else {
+            System.out.print("Enter city: ");
+            City city = reader.getCity();
+            List<Client> filteredClients = new ArrayList<>();
+            for (Client client : clients) {
+                for (Address address : client.getAddresses()) {
+                    if (city.equals(address.getCity())) {
+                        filteredClients.add(client);
+                    }
+                }
+            }
+            if (filteredClients.isEmpty()) {
+                System.out.println("No clients match your criteria");
+            } else {
+                System.out.println("Found clients: ");
+                writer.writeAll(filteredClients);
+            }
+        }
+    }
+
+    private void searchByAge() {
+        List<Client> clients = service.getAllClients();
+        if (clients.isEmpty()) {
+            System.out.println("No clients available.");
+        } else {
+            System.out.print("Enter min age: ");
+            int min = ConsoleUtil.getInteger();
+            System.out.print("Enter max age: ");
+            int max = ConsoleUtil.getInteger();
+            while (max < min) {
+                System.out.print("Max limit should be >= min limit. Try again: ");
+                max = ConsoleUtil.getInteger();
+            }
+            List<Client> filteredClients = new ArrayList<>();
+            for (Client client : clients) {
+                if (client.calculateAge() >= min && client.calculateAge() <= max) {
+                    filteredClients.add(client);
+                }
+            }
+            if (filteredClients.isEmpty()) {
+                System.out.println("No clients match your criteria");
+            } else {
+                System.out.println("Found clients: ");
+                writer.writeAll(filteredClients);
             }
         }
     }

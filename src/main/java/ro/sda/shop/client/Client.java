@@ -4,6 +4,7 @@ import ro.sda.shop.common.Entity;
 import ro.sda.shop.order.Order;
 
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.List;
 
 public class Client extends Entity {
@@ -36,63 +37,63 @@ public class Client extends Entity {
         return name;
     }
 
-    public void setName(String name) {
+    void setName(String name) {
         this.name = name;
     }
 
-    public String getPhoneNumber() {
+    String getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
+    void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getEmail() {
+    String getEmail() {
         return email;
     }
 
-    public void setEmail(String email) {
+    void setEmail(String email) {
         this.email = email;
     }
 
-    public String getSocialId() {
+    String getSocialId() {
         return socialId;
     }
 
-    public void setSocialId(String socialId) {
+    void setSocialId(String socialId) {
         this.socialId = socialId;
     }
 
-    public char getGender() {
+    char getGender() {
         return gender;
     }
 
-    public void setGender(char gender) {
+    void setGender(char gender) {
         this.gender = gender;
     }
 
-    public LocalDate getDateOfBirth() {
+    LocalDate getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(LocalDate dateOfBirth) {
+    void setDateOfBirth(LocalDate dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 
-    public List<Address> getAddresses() {
+    List<Address> getAddresses() {
         return addresses;
     }
 
-    public void setAddresses(List<Address> addresses) {
+    void setAddresses(List<Address> addresses) {
         this.addresses = addresses;
     }
 
-    public boolean isActive() {
+    boolean isActive() {
         return active;
     }
 
-    public void setActive(boolean active) {
+    void setActive(boolean active) {
         this.active = active;
     }
 
@@ -102,5 +103,10 @@ public class Client extends Entity {
 
     public void setOrders(List<Order> orders) {
         this.orders = orders;
+    }
+
+    int calculateAge() {
+//        return LocalDate.now().getYear() - dateOfBirth.getYear();
+        return Period.between(dateOfBirth, LocalDate.now()).getYears();
     }
 }

@@ -102,24 +102,6 @@ public class ClientReader implements ConsoleReader<Client> {
         return LocalDate.of(year, month, day);
     }
 
-    private String getZipCode() {
-        String zipCode = scanner.nextLine().trim();
-        while (!zipCode.matches("[0-9]{6}")) {
-            System.out.print("Incorrect zip code. Try again: ");
-            zipCode = scanner.nextLine().trim();
-        }
-        return zipCode;
-    }
-
-    private String getCounty() {
-        String county = scanner.nextLine();
-        while (!county.matches("[a-zA-Z \\-]{1,}")) {
-            System.out.print("Incorrect county. Try again: ");
-            county = scanner.nextLine().trim();
-        }
-        return county;
-    }
-
     Address getAddress() {
         Address address = new Address();
 //        System.out.print("Street: ");
@@ -137,28 +119,41 @@ public class ClientReader implements ConsoleReader<Client> {
         System.out.print("Adress: ");
         address.setAddress(ConsoleUtil.capitalizeEachWord(scanner.nextLine()));
         System.out.print("City: ");
-        City[] availableCities = City.values();
-        boolean isValid = false;
-        while (!isValid) {
-            String input = scanner.nextLine().trim().toLowerCase();
-            for (City city : City.values()) {
-                if (input.equals(city.toString().toLowerCase())) {
-//            for (int i = 0; i < availableCities.length; i++) {
-//                if (city.equals(availableCities[i].toString().toLowerCase())) {
-                    isValid = true;
-//                    address.setCity(availableCities[i]);
-                    address.setCity(city);
-                    break;
-                }
-            }
-            if (!isValid) {
-                System.out.print("Invalid city. Try again: ");
-            }
-        }
+        address.setCity(getCity());
         System.out.print("County: ");
         address.setCounty(ConsoleUtil.capitalizeEachWord(getCounty()));
         System.out.print("Zip code: ");
         address.setZipCode(getZipCode());
         return address;
+    }
+
+    City getCity() {
+        while (true) {
+            String input = scanner.nextLine().trim().toLowerCase();
+            for (City city : City.values()) {
+                if (input.equals(city.toString().toLowerCase())) {
+                    return city;
+                }
+            }
+            System.out.print("Invalid city. Try again: ");
+        }
+    }
+
+    private String getZipCode() {
+        String zipCode = scanner.nextLine().trim();
+        while (!zipCode.matches("[0-9]{6}")) {
+            System.out.print("Incorrect zip code. Try again: ");
+            zipCode = scanner.nextLine().trim();
+        }
+        return zipCode;
+    }
+
+    private String getCounty() {
+        String county = scanner.nextLine();
+        while (!county.matches("[a-zA-Z \\-]{1,}")) {
+            System.out.print("Incorrect county. Try again: ");
+            county = scanner.nextLine().trim();
+        }
+        return county;
     }
 }

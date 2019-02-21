@@ -29,7 +29,7 @@ public class ClientService {
     }
 
     Client save(Client client) {
-        Client updatedClient = null;
+        Client updatedClient;
         if (client.getId() == null) {
             updatedClient = clientDAO.add(client);
         } else {

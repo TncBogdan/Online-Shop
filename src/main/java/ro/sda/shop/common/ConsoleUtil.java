@@ -27,17 +27,27 @@ public class ConsoleUtil {
         return readLong("Invalid id. Please retry: ");
     }
 
-    public static Double getPrice() {
-        double price = 0d;
-        while (true) {
-            try {
-                price = scanner.nextDouble();
-            } catch (InputMismatchException e) {
-                scanner.nextLine();
+    public static Double getPrice(Entity entity) {
+        Scanner scanner1 = new Scanner(System.in); // nu inteleg de ce scannerul de sus sare introducerea inputului
+        String input = scanner1.nextLine().trim();
+        Double price = 0d;
+        if (entity.getId() == null || (entity.getId() != null && !input.isEmpty())) {
+            while (price <= 0) {
+                boolean isValid = true;
+                if (input.matches("[0-9.]{1,}")) {
+                    try {
+                        price = Double.parseDouble(input);
+                    } catch (NumberFormatException e) {
+                        isValid = false;
+                    }
+                } else {
+                    isValid = false;
+                }
+                if (!isValid) {
+                    System.out.print("Incorrect price. Insert again: ");
+                    input = scanner1.nextLine().trim();
+                }
             }
-            if (price <= 0)
-                System.out.print("Incorrect price. Insert again: ");
-            else break;
         }
         return price;
     }
@@ -73,15 +83,13 @@ public class ConsoleUtil {
 
     public static int getInteger() {
         int value = 0;
-        while (true) {
+        while (value <= 0) {
             try {
                 value = scanner.nextInt();
             } catch (InputMismatchException e) {
                 scanner.nextLine();
-            }
-            if (value <= 0)
                 System.out.print("Incorrect value. Insert again: ");
-            else break;
+            }
         }
         return value;
     }

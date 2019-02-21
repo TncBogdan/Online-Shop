@@ -24,7 +24,7 @@ public class ProductReader implements ConsoleReader<Product> {
         }
         product.setDescription(ConsoleUtil.toSentenceCase(description));
         System.out.print("Price: ");
-        product.setPrice(ConsoleUtil.getPrice());
+        product.setPrice(ConsoleUtil.getPrice(product));
         return product;
     }
 }

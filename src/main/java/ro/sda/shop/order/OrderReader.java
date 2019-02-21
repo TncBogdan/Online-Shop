@@ -38,7 +38,7 @@ public class OrderReader implements ConsoleReader<Order> {
         }
         List<Product> listOfProducts = getProducts(noOfProducts);
         System.out.print("Actual price: ");
-        Double actualPrice = ConsoleUtil.getPrice();
+        Double actualPrice = ConsoleUtil.getPrice(order);
         order.setClient(selectedClient);
         order.setOrderedProducts(listOfProducts);
         order.setFinalPrice(actualPrice);

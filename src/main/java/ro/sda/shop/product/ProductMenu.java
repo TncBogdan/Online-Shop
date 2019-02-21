@@ -9,6 +9,7 @@ public class ProductMenu extends AbstractMenu {
     private ProductService service = new ProductService();
     private ProductReader reader = new ProductReader();
     private ProductWriter writer = new ProductWriter();
+    private Scanner scanner = new Scanner(System.in);
 
     protected void displayOptions() {
         System.out.println("\nProducts menu");
@@ -73,7 +74,6 @@ public class ProductMenu extends AbstractMenu {
             if (foundProduct == null) {
                 System.out.println("Product not found");
             } else {
-                Scanner scanner = new Scanner(System.in);
                 System.out.print("Enter new name (leave empty if the same): ");
                 String name = scanner.nextLine().trim();
                 if (!name.isEmpty()) {
@@ -84,13 +84,11 @@ public class ProductMenu extends AbstractMenu {
                 if (!description.isEmpty()) {
                     foundProduct.setDescription(ConsoleUtil.toSentenceCase(description));
                 }
-                System.out.print("Enter new price: ");
-                foundProduct.setPrice(ConsoleUtil.getPrice());
-//                try {
-//                    foundProduct.setPrice(scanner.nextDouble());
-//                } catch (InputMismatchException e) {
-//                    System.out.println("Price not changed");
-//                }
+                System.out.print("Enter new price (leave empty if the same): ");
+                Double price = ConsoleUtil.getPrice(foundProduct);
+                if (price != 0) {
+                    foundProduct.setPrice(price);
+                }
                 service.save(foundProduct);
                 System.out.println("Product updated");
             }

@@ -28,7 +28,7 @@ public class StockReader implements ConsoleReader<Stock> {
 //        System.out.println("Quantity: ");
 //        Integer quantity = scanner.nextInt();
 //        stock.setProducts(product);
-        stock.setLocation(location);
+//        stock.setLocation(location);
 //        stock.setQuantity(quantity);
         return stock;
     }

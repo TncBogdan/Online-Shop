@@ -9,7 +9,7 @@ public class ConsoleUtil {
 
     public static Long readLong(String invalidInputMessage) {
         Long result = null;
-        int retries = 0;
+//        int retries = 0; // crapa daca introducem caractere de MAX_RETRIES ori
         while (result == null) {
             try {
                 result = scanner.nextLong();
@@ -17,7 +17,7 @@ public class ConsoleUtil {
                 scanner.nextLine();
                 System.out.print(invalidInputMessage);
             }
-            retries++;
+//            retries++;
         }
         return result;
     }
@@ -27,7 +27,7 @@ public class ConsoleUtil {
     }
 
     public static Double getPrice(Entity entity) {
-        Scanner scanner1 = new Scanner(System.in); // nu inteleg de ce scannerul de sus sare introducerea inputului
+        Scanner scanner1 = new Scanner(System.in); // nu inteleg de ce scannerul clasei sare introducerea inputului cand editez un item
         String input = scanner1.nextLine().trim();
         Double price = 0d;
         if (entity.getId() == null || (entity.getId() != null && !input.isEmpty())) {
@@ -60,30 +60,7 @@ public class ConsoleUtil {
         return input;
     }
 
-//    public static String toSentenceCase(String input) {
-//        String[] sentences = input.split(".");
-//        String finalString = input;
-//        for (int i = 0; i < sentences.length; i++) {
-//            String tempString = "";
-//            if (!sentences[i].isEmpty()) {
-//                String[] words = sentences[i].split(" ");
-//                String firstWord = sentences[i].split(" ")[0];
-//                if(!)
-//                for (int j = 0; j < words.length; j++) {
-//                    if (!words[j].isEmpty()) {
-//                        words[j] = capitalizeFirstLetter(words[j]);
-//                        if (j < words.length - 1) {
-//                            words[j] += " ";
-//                        }
-//                        tempString += words[i];
-//                    }
-//                }
-//            }
-//        }
-//        return finalString;
-//    }
-
-    public static String capitalizeEachWord(String input) {
+    public static String toTitleCase(String input) {
         String[] separators = {" ", "-"};
         String finalString = input;
         for (String separator : separators) {
@@ -96,6 +73,30 @@ public class ConsoleUtil {
                         words[i] += separator;
                     }
                     tempString += words[i];
+                }
+            }
+            finalString = tempString;
+        }
+        return finalString;
+    }
+
+    public static String toSentenceCase(String input) {
+        String[] separators = {"\\.", "\\?", "\\!"}; // am pus escape character la toate din cauza stupidului de "?"
+        String finalString = input;
+        char lastLetter = input.charAt(input.length() - 1);
+        for (String separator : separators) {
+            String tempString = "";
+            String[] sentences = finalString.split(separator);
+            for (int i = 0; i < sentences.length; i++) {
+                if (!sentences[i].isEmpty()) {
+                    sentences[i] = capitalizeFirstLetter(sentences[i].trim());
+                    if (i < sentences.length - 1) {
+                        sentences[i] += separator.charAt(1) + " ";
+                    }
+                    if (i == sentences.length - 1 && separator.charAt(1) == lastLetter) {
+                        sentences[i] += lastLetter;
+                    }
+                    tempString += sentences[i];
                 }
             }
             finalString = tempString;

@@ -1,18 +1,19 @@
 package ro.sda.shop.stock;
 
+import ro.sda.shop.common.City;
 import ro.sda.shop.common.Entity;
 import ro.sda.shop.product.Product;
 
 public class Stock extends Entity {
-    public static final String DEFAULT_LOCATION = "Oradea";
+    public static final City DEFAULT_LOCATION = City.Iasi;
     private Product product;
     private Integer quantity;
-    private String location;
+    private City location;
 
     public Stock() {
     }
 
-    public Stock(Product product, Integer quantity, String location) {
+    public Stock(Product product, Integer quantity, City location) {
         this.product = product;
         this.quantity = quantity;
         this.location = location;
@@ -34,11 +35,11 @@ public class Stock extends Entity {
         this.quantity = quantity;
     }
 
-    public String getLocation() {
+    public City getLocation() {
         return location;
     }
 
-    public void setLocation(String location) {
+    public void setLocation(City location) {
         this.location = location;
     }
 }

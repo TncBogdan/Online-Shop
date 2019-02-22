@@ -1,5 +1,7 @@
 package ro.sda.shop.client;
 
+import ro.sda.shop.common.City;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;

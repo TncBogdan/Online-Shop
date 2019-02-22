@@ -1,5 +1,7 @@
 package ro.sda.shop.client;
 
+import ro.sda.shop.common.City;
+
 public class Address {
     //    private String street;
 //    private String number;

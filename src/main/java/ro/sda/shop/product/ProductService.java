@@ -9,6 +9,7 @@ public class ProductService {
         productDAO.add(new Product("Tv", "4k", 3300D));
         productDAO.add(new Product("Consola", "PS4", 1300D));
         productDAO.add(new Product("Laptop", "Asus", 2500D));
+        productDAO.add(new Product("Monitor", "24\"", 700D));
     }
 
     List<Product> getAllProducts() {

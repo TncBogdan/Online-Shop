@@ -15,14 +15,14 @@ public class ProductReader implements ConsoleReader<Product> {
             System.out.print("You must enter a name: ");
             name = scanner.nextLine().trim();
         }
-        product.setName(ConsoleUtil.capitalizeEachWord(name));
+        product.setName(ConsoleUtil.toTitleCase(name));
         System.out.print("Description: ");
         String description = scanner.nextLine().trim();
         while (description.isEmpty()) {
             System.out.print("You must enter a description: ");
             description = scanner.nextLine().trim();
         }
-        product.setDescription(ConsoleUtil.capitalizeFirstLetter(description));
+        product.setDescription(ConsoleUtil.toSentenceCase(description));
         System.out.print("Price: ");
         product.setPrice(ConsoleUtil.getPrice(product));
         return product;

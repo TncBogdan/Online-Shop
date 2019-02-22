@@ -1,6 +1,7 @@
 package ro.sda.shop.client;
 
 import org.hazlewood.connor.bottema.emailaddress.EmailAddressValidator;
+import ro.sda.shop.common.City;
 import ro.sda.shop.common.ConsoleReader;
 import ro.sda.shop.common.ConsoleUtil;
 
@@ -21,7 +22,7 @@ public class ClientReader implements ConsoleReader<Client> {
             System.out.print("You must enter a name: ");
             name = scanner.nextLine().trim();
         }
-        client.setName(ConsoleUtil.capitalizeEachWord(name));
+        client.setName(ConsoleUtil.toTitleCase(name));
 //        System.out.print("Gender (m/f): ");
 //        char gender = getGender();
         System.out.print("Phone number: ");
@@ -131,11 +132,11 @@ public class ClientReader implements ConsoleReader<Client> {
             System.out.print("You must enter an adress: ");
             location = scanner.nextLine().trim();
         }
-        address.setAddress(ConsoleUtil.capitalizeEachWord(location));
+        address.setAddress(ConsoleUtil.capitalizeFirstLetter(location));
         System.out.print("City: ");
         address.setCity(getCity());
         System.out.print("County: ");
-        address.setCounty(ConsoleUtil.capitalizeEachWord(getCounty()));
+        address.setCounty(ConsoleUtil.toTitleCase(getCounty()));
         System.out.print("Zip code: ");
         address.setZipCode(getZipCode());
         return address;

@@ -1,6 +1,7 @@
 package ro.sda.shop.client;
 
 import ro.sda.shop.common.AbstractMenu;
+import ro.sda.shop.common.City;
 import ro.sda.shop.common.ConsoleUtil;
 
 import java.util.ArrayList;
@@ -87,7 +88,7 @@ public class ClientMenu extends AbstractMenu {
                 System.out.print("Enter new name (leave empty if the same): ");
                 String name = scanner.nextLine().trim();
                 if (!name.isEmpty()) {
-                    foundClient.setName(ConsoleUtil.capitalizeEachWord(name));
+                    foundClient.setName(ConsoleUtil.toTitleCase(name));
                 }
                 System.out.print("Enter new phone number (leave empty if the same): ");
                 String phoneNumber = reader.getPhoneNumber(foundClient);
@@ -128,19 +129,19 @@ public class ClientMenu extends AbstractMenu {
         } else {
             System.out.print("Enter city: ");
             City city = reader.getCity();
-            List<Client> filteredClients = new ArrayList<>();
+            List<Client> foundClients = new ArrayList<>();
             for (Client client : clients) {
                 for (Address address : client.getAddresses()) {
                     if (city.equals(address.getCity())) {
-                        filteredClients.add(client);
+                        foundClients.add(client);
                     }
                 }
             }
-            if (filteredClients.isEmpty()) {
+            if (foundClients.isEmpty()) {
                 System.out.println("No clients match your criteria");
             } else {
                 System.out.println("Found clients: ");
-                writer.writeAll(filteredClients);
+                writer.writeAll(foundClients);
             }
         }
     }
@@ -158,17 +159,17 @@ public class ClientMenu extends AbstractMenu {
                 System.out.print("Max limit should be >= min limit. Try again: ");
                 max = ConsoleUtil.getInteger();
             }
-            List<Client> filteredClients = new ArrayList<>();
+            List<Client> foundClients = new ArrayList<>();
             for (Client client : clients) {
                 if (client.calculateAge() >= min && client.calculateAge() <= max) {
-                    filteredClients.add(client);
+                    foundClients.add(client);
                 }
             }
-            if (filteredClients.isEmpty()) {
+            if (foundClients.isEmpty()) {
                 System.out.println("No clients match your criteria");
             } else {
                 System.out.println("Found clients: ");
-                writer.writeAll(filteredClients);
+                writer.writeAll(foundClients);
             }
         }
     }

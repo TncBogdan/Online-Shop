@@ -1,16 +1,26 @@
 package ro.sda.shop.stock;
 
+import ro.sda.shop.common.City;
 import ro.sda.shop.product.Product;
 import ro.sda.shop.exceptions.NotFoundException;
+import ro.sda.shop.product.ProductDAO;
 
 public class StockService {
     private StockDAO stockDAO = new StockDAO();
+    private ProductDAO productDAO = new ProductDAO();
+
+    public void initialize() {
+        stockDAO.add(new Stock(productDAO.findById(2L), 50, City.Arad));
+        stockDAO.add(new Stock(productDAO.findById(0L), 10, City.Cluj));
+        stockDAO.add(new Stock(productDAO.findById(1L), 70, City.Iasi));
+        stockDAO.add(new Stock(productDAO.findById(3L), 100, City.Bucuresti));
+    }
 
     public void addProductToStock(Product product, int quantity) {
         addProductToStock(product, quantity, Stock.DEFAULT_LOCATION);
     }
 
-    public void addProductToStock(Product product, int quantity, String location) {
+    public void addProductToStock(Product product, int quantity, City location) {
         Stock stock = stockDAO.findByProductIdAndLocation(product.getId(), location);
         if (stock == null) {
             stock = new Stock(product, 1, location);
@@ -19,7 +29,7 @@ public class StockService {
     }
 
     public Stock save(Stock stock) {
-        Stock updatedStock = null;
+        Stock updatedStock;
         if (stock.getId() == null) {
             updatedStock = stockDAO.add(stock);
         } else {
@@ -33,7 +43,7 @@ public class StockService {
         return isInStock(product, Stock.DEFAULT_LOCATION);
     }
 
-    public boolean isInStock(Product product, String location) {
+    public boolean isInStock(Product product, City location) {
         Stock stock = stockDAO.findByProductIdAndLocation(product.getId(), location);
         if (stock != null && stock.getQuantity() > 0) {
             return true;
@@ -41,7 +51,7 @@ public class StockService {
         return false;
     }
 
-    public void deliverFromStock(Product product, String location, int quantity) {
+    public void deliverFromStock(Product product, City location, int quantity) {
         Stock stock = stockDAO.findByProductIdAndLocation(product.getId(), location);
         if (stock != null && stock.getQuantity() >= quantity) {
             int newQuantity = stock.getQuantity() - quantity;
@@ -52,7 +62,7 @@ public class StockService {
         }
     }
 
-    public void returnToStock(Product product, String location, int quantity) {
+    public void returnToStock(Product product, City location, int quantity) {
         Stock stock = stockDAO.findByProductIdAndLocation(product.getId(), location);
         if (stock != null) {
             int newQuantity = stock.getQuantity() + quantity;

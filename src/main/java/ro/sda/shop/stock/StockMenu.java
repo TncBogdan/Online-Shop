@@ -80,7 +80,7 @@ public class StockMenu extends AbstractMenu {
         System.out.println("Enter new location: ");
         String location = new Scanner(System.in).nextLine();
         Stock stock = stockDAO.findById(id);
-        stock.setLocation(location);
+//        stock.setLocation(location);
         stockDAO.update(stock);
     }
 

@@ -46,22 +46,6 @@ public class OrderMenu extends AbstractMenu {
         }
     }
 
-    private void cancelOrder() {
-        if (service.getAllOrders().isEmpty()) {
-            System.out.println("No orders available.");
-        } else {
-            writer.writeAll(service.getAllOrders());
-            System.out.print("Select order to delete: ");
-            Long id = ConsoleUtil.readLong();
-            if (id == null) {
-                System.out.println("Order not found");
-            } else {
-                service.cancelOrder(service.getOrder(id));
-                System.out.println("Order deleted");
-            }
-        }
-    }
-
     private void viewOrderDetails() {
         if (service.getAllOrders().isEmpty()) {
             System.out.println("No orders available.");
@@ -95,5 +79,19 @@ public class OrderMenu extends AbstractMenu {
         }
     }
 
-
+    private void cancelOrder() {
+        if (service.getAllOrders().isEmpty()) {
+            System.out.println("No orders available.");
+        } else {
+            writer.writeAll(service.getAllOrders());
+            System.out.print("Select order to delete: ");
+            Long id = ConsoleUtil.readLong();
+            if (id == null) {
+                System.out.println("Order not found");
+            } else {
+                service.cancelOrder(service.getOrder(id));
+                System.out.println("Order deleted");
+            }
+        }
+    }
 }
